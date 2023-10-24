@@ -11,18 +11,18 @@ export default {
             state.misDecimos.push(decimo);
         },
         editarDecimoMutation(state, decimo){
-            console.log("storage/index.js: mutation - modificando el décimo en el global state");
+            console.log("storage/index.js: mutation - modificando el décimo en el global state. Decimo: " + decimo);
 
             //Buscamos el índice que ocupa el decimo a modificar
-            const index = state.misDecimos.map(item => item.id).indexOf(decimo.id);
+            const index = state.misDecimos.findIndex(item => item.id === decimo.id);
 
             //Sobrescribimos el décimo
             state.misDecimos[index] = decimo;
         },
         eliminarDecimoMutation(state, decimoID) {
-            console.log("storage/index.js: mutation - eliminar décimo del global state");
+            console.log("storage/index.js: mutation - eliminar décimo del global state "+ decimoID);
 
-            const index = state.misDecimos.map(item => item.id).indexOf(decimoID);
+            const index = state.misDecimos.findIndex(item => item.id === decimoID);
 
             state.misDecimos.splice(index, 1);
         },
