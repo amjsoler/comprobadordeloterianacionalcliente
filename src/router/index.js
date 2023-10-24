@@ -7,13 +7,14 @@ import IniciarSesion from "@/views/usuario/IniciarSesion.vue";
 import RegistroUsuario from "@/views/usuario/RegistroUsuario.vue";
 import RecuperarContrasena from "@/views/usuario/RecuperarContrasena.vue";
 import MisDecimos from "@/views/decimos/MisDecimos.vue";
-import MisDecimosCrear from "@/views/decimos/MisDecimosCrear.vue";
-import MisDecimosEditar from "@/views/decimos/MisDecimosEditar.vue";
 import ComprobarDecimo from "@/views/decimos/ComprobarDecimo.vue";
 import ComprobarDecimoQR from "@/views/decimos/ComprobarDecimoQR.vue";
 import UltimosResultados from "@/views/resultados/UltimosResultados.vue";
 import CuentaUsuario from "@/views/usuario/CuentaUsuario.vue";
 import BuscarDecimo from "@/views/decimos/BuscarDecimo.vue";
+import CrearDecimo from "@/views/decimos/CrearDecimo.vue";
+import EditarDecimo from "@/views/decimos/EditarDecimo.vue";
+import VerDecimo from "@/views/decimos/VerDecimo.vue";
 
 const routes = [
     //Rutas de USUARIO
@@ -56,17 +57,25 @@ const routes = [
     }
   },
   {
+    path: '/mis-decimos/:id',
+    name: 'VerDecimo',
+    component: VerDecimo,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/mis-decimos/crear',
-    name: 'MisDecimosCrear',
-    component: MisDecimosCrear,
+    name: 'CrearDecimo',
+    component: CrearDecimo,
     meta: {
       requiresAuth: true
     },
   },
   {
-    path: '/mis-decimos/editar',
-    name: 'MisDecimosEditar',
-    component: MisDecimosEditar,
+    path: '/mis-decimos/:id/editar',
+    name: 'EditarDecimo',
+    component: EditarDecimo,
     meta: {
       requiresAuth: true
     },

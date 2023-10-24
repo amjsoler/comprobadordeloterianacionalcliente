@@ -1,7 +1,7 @@
 <template>
   <input :type="type"
          :value="modelValue"
-         @keyup="$emit('update:modelValue', $event.target.value)"
+         @change="$emit('update:modelValue', $event.target.value)"
          class="form-control block w-full rounded-md shadow-sm text-center" />
 </template>
 

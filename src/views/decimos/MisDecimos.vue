@@ -1,8 +1,9 @@
 <template>
   <div>
-    <a v-for="decimo in misDecimos"
-       v-bind:key="decimo.id"
-       data-bs-target="#verDecimo" data-bs-toggle="modal">
+    <router-link :to="{name: 'VerDecimo', params: {id: decimo.id}}"
+                 v-for="decimo in misDecimos"
+                  v-bind:key="decimo.id"
+                class="text-decoration-none cursor-pointer">
       <div class="card mb-3">
         <div class="g-0 d-flex">
           <div class="col-4">
@@ -18,45 +19,38 @@
           </div>
         </div>
       </div>
-    </a>
-    <!-- asdfasd -->
+    </router-link>
+    <router-link :to="{name:'CrearDecimo'}">
+      Nuevo décimo
+    </router-link>
   </div>
-
-  <modal-general id="verDecimo">
-    Todavía no hay resultados disponibles. Vuelve cuando se haya celebrado el sorteo para ver si has tenido suerte.
-  </modal-general>
 </template>
 
 <script>
 import axios from "axios";
 import {mapActions, mapState} from "vuex";
-import ModalGeneral from "@/components/generales/modales/ModalGeneral.vue";
 
 export default {
   name: "MisDecimos",
-  components: {ModalGeneral},
   computed:{
-    ...mapState(["misDecimos"]),
+    ...mapState(
+        "decimos", ["misDecimos"]
+    ),
   },
+
   methods: {
-    ...mapActions(["almacenarMisDecimos"]),
-
-    editarDecimo(){
-
-    },
-    eliminarDecimo(){
-
-    }
+    ...mapActions({
+      almacenarListadoMisDecimosAction: "decimos/almacenarListadoMisDecimosAction"
+    }),
   },
   mounted() {
-    console.log("MisDecimos.vue: Entrando a mis decimos");
-    console.log("MisDecimos.vue: Peticionando listado de mis décimos");
+    console.log("MisDecimos.vue: Entrando a mis decimos. Mandando petición para leer los décimos");
 
     axios.get(process.env.VUE_APP_API_BASE_URL+"mis-decimos")
         .then(response => {
-          console.log("MisDecimos.vue: Respuesta OK. Almaceno el listado de décimos en misdecimos del global storage");
+          console.log("MisDecimos.vue: Respuesta OK. Almaceno el listado de décimos en misdecimos del global state");
 
-          this.almacenarMisDecimos(response.data);
+          this.almacenarListadoMisDecimosAction(response.data);
         })
         .catch(error => {
           console.log("MisDecimos.vue: Respuesta KO. Error desconocido al leer los décimos");
