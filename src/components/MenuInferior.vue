@@ -21,7 +21,7 @@
         <span class="fuente-menu d-block mt-2 lh-1">Últimos resultados</span>
       </router-link>
         <router-link :to="{name: 'CuentaUsuario'}"
-                     class="d-block w-100 text-center text-decoration-none text-secondary">
+                     class="w-100 text-center text-decoration-none text-secondary">
             <span class="material-symbols-outlined w-100 icono">account_circle</span>
             <span class="fuente-menu d-block mt-2 lh-1">Perfil</span>
         </router-link>

@@ -9,9 +9,14 @@ export default createStore({
     errors: [],
     message: "",
     toastApp: {},
-    nombreUsuarioInvitado: "",
+    misDecimos: [],
   },
   mutations: {
+    almacenarMisDecimos(state, misDecimos) {
+      console.log("storage/index.js: mutation - almacenando mis decimos en el global state");
+
+      state.misDecimos = misDecimos;
+    },
     almacenarMensajeToast(state, {mensaje, tipo}){
       console.log("storage/index.js: mutation - almacenando mensaje para el toast");
       state.toastApp.mensaje = mensaje;
@@ -38,6 +43,13 @@ export default createStore({
     },
   },
   actions: {
+    almacenarMisDecimos({commit}, misDecimos) {
+      console.log("storage/index.js: action - almacenar mis decimos");
+
+      window.localStorage.setItem("misdecimos", misDecimos);
+
+      commit("almacenarMisDecimos", misDecimos);
+    },
     almacenarMensajeToast({commit}, {mensaje, tipo}) {
       console.log("storage/index.js: action - almacenar mensaje del toast");
 
