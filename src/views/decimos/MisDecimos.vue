@@ -1,24 +1,30 @@
 <template>
-  <router-link :to="{name: 'VerDecimo', params: {id: decimo.id}}"
-               v-for="decimo in misDecimos"
-               v-bind:key="decimo.id"
-               class="text-decoration-none cursor-pointer">
-    <div class="card mb-3">
-      <div class="g-0 d-flex">
-        <div class="col-4">
-          <img src="/login.png" class="img-fluid rounded-start" alt="logo">
+    <div>
+        <div v-for="decimo in misDecimos"
+             v-bind:key="decimo.id"
+             class="card mb-3 text-decoration-none cursor-pointer">
+            <div class="g-0 d-flex">
+                <div class="col-8">
+
+                    <img src="/s90_2023_pc.jpg" class="img-fluid rounded-start" alt="imagen del décimo">
+                </div>
+                <div class="col-4 flex-fill d-flex align-items-center text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Nº: {{ decimo.numero}}</h5>
+                        <p class="card-text">
+                            <span v-if="decimo.serie">S: {{ decimo.serie }}</span>
+                            <span v-else>S: --</span>,
+                            <span v-if="decimo.fraccion">F: {{ decimo.fraccion }}</span>
+                            <span v-else>F: --</span>
+                        </p>
+                        <p v-if="!decimo.premio" class="small">El sorteo todavía no se ha celebrado</p>
+                        <p v-else-if="decimo.premio == 0" class="small">Este décimo no está premiado</p>
+                        <p v-else class="small text-success">Este décimo tiene un premio de {{decimo.premio}}€ ¡Enhorabuena!</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-8">
-          <div class="card-body">
-            <h5 class="card-title">Nº:{{ decimo.numero}}</h5>
-            <p class="card-text">
-              S: {{ decimo.serie }}, F: {{ decimo.fraccion }}
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
-  </router-link>
   <router-link :to="{name:'CrearDecimo'}">
     Nuevo décimo
   </router-link>
