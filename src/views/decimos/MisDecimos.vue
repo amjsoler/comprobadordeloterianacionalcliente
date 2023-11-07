@@ -1,29 +1,27 @@
 <template>
-  <div>
-    <router-link :to="{name: 'VerDecimo', params: {id: decimo.id}}"
-                 v-for="decimo in misDecimos"
-                  v-bind:key="decimo.id"
-                class="text-decoration-none cursor-pointer">
-      <div class="card mb-3">
-        <div class="g-0 d-flex">
-          <div class="col-4">
-            <img src="/login.png" class="img-fluid rounded-start" alt="logo">
-          </div>
-          <div class="col-8">
-            <div class="card-body">
-              <h5 class="card-title">Nº:{{ decimo.numero}}, R: {{ decimo.reintegro }}</h5>
-              <p class="card-text">
-                S: {{ decimo.serie }}, F: {{ decimo.fraccion }}
-              </p>
-            </div>
+  <router-link :to="{name: 'VerDecimo', params: {id: decimo.id}}"
+               v-for="decimo in misDecimos"
+               v-bind:key="decimo.id"
+               class="text-decoration-none cursor-pointer">
+    <div class="card mb-3">
+      <div class="g-0 d-flex">
+        <div class="col-4">
+          <img src="/login.png" class="img-fluid rounded-start" alt="logo">
+        </div>
+        <div class="col-8">
+          <div class="card-body">
+            <h5 class="card-title">Nº:{{ decimo.numero}}</h5>
+            <p class="card-text">
+              S: {{ decimo.serie }}, F: {{ decimo.fraccion }}
+            </p>
           </div>
         </div>
       </div>
-    </router-link>
-    <router-link :to="{name:'CrearDecimo'}">
-      Nuevo décimo
-    </router-link>
-  </div>
+    </div>
+  </router-link>
+  <router-link :to="{name:'CrearDecimo'}">
+    Nuevo décimo
+  </router-link>
 </template>
 
 <script>

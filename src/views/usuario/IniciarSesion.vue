@@ -66,7 +66,7 @@ export default {
     iniciarSesion() {
       try {
         console.log("IniciarSesion.vue: Lanzando petición post a login");
-        axios.post(process.env.VUE_APP_API_BASE_URL + "login", {
+        axios.post(process.env.VUE_APP_API_BASE_URL + "iniciar-sesion", {
           email: this.email,
           password: this.password
         }).then(response => {
@@ -91,9 +91,13 @@ export default {
               console.log("IniciarSesion.vue: Error en la petición de inicio de sesión");
               //Si no es un error de validación preguntamos si la contraseña es correcta puesto que esta no se valida en el request de servidor...
               if (error.response && error.response.status != 422) {
-                console.log("IniciarSesion.vue: Error generico");
-                this.errors.email = [];
-                this.errors.password = ["¿La contraseña es correcta?"];
+                if(error.response.status == 401){
+                  console.log("IniciarSesion.vue: Error generico");
+
+                  var errArr = {"password": ["¿La contraseña es correcta?"]};
+                  store.dispatch("almacenarArrayErrores", errArr);
+                  store.dispatch("almacenarMensaje", "¿La contraseña es correcta?");
+                }
               }
             });
       } catch (error) {

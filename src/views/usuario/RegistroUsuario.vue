@@ -41,6 +41,8 @@ import DivCentroPantalla from "@/components/generales/DivCentroPantalla.vue";
 import ButtonSubmit from "@/components/generales/formularios/ButtonSubmit.vue";
 import InputControl from "@/components/generales/formularios/InputControl.vue";
 import store from "@/store";
+import {mapState} from "vuex";
+import GlobalHelpers from "@/helpers/globalHelpers.vue";
 
 export default {
   name:"RegistroUsuario",
@@ -52,9 +54,10 @@ export default {
       email: "",
       password: "",
       password_confirmation: "",
-      errors:[],
-      message:"",
     }
+  },
+  computed: {
+    ...mapState(["errors", "message"]),
   },
   mounted() {
     console.log("RegistrarUsuario.vue: Entrando a la vista de RegistrarUsuario");
@@ -63,7 +66,7 @@ export default {
     enviarFormularioRegistro(){
       try{
         console.log("RegistrarUsuario.vue: Mandando petición al registro del servidor");
-        axios.post(process.env.VUE_APP_API_BASE_URL+"register",{
+        axios.post(process.env.VUE_APP_API_BASE_URL+"registrarse",{
           "name":this.name,
           "email":this.email,
           "password":this.password,
@@ -78,6 +81,9 @@ export default {
               //también almaceno los décimos del usuario para tenerlos sincronizados
               store.dispatch("almacenarMisDecimos",response.data.misdecimos);
 
+              //Muestro un toast de bienvenida
+              GlobalHelpers.mostrarToast('Te has registrado correctamente. ¡Bienvenido, ' + this.name + "!", "success")
+
               //Una vez tengo el token guardado, redirijo adonde quería ir
               if(router.currentRoute.value.redirectedFrom){
                 router.push(router.currentRoute.value.redirectedFrom);
@@ -91,13 +97,8 @@ export default {
               if(error.response && error.response.data &&
                   error.response.data.errors &&
                   error.response.data.message){
-                this.errors = error.response.data.errors;
-                this.message = error.response.data.message;
-              }
-              //Si no, muestro un error generico
-              else{
-                this.errors.email = [];
-                this.errors.password = ["¿La contraseña es correcta?"];
+                store.dispatch("almacenarArrayErrores", error.response.data.errors);
+                store.dispatch("almacenarMensaje", error.response.data.message);
               }
             })
       }catch(error){

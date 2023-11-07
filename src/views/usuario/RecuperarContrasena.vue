@@ -1,8 +1,10 @@
 <template>
   <div-centro-pantalla>
-    <form-label>Dirección de correo</form-label>
-    <input-control type="email" v-model="email" />
-    <button class="btn btn-primary mt-3" @click="enviarCorreo">Enviar correo</button>
+    <form>
+      <form-label>Dirección de correo</form-label>
+      <input-control type="email" v-model="correo" />
+      <button-submit @submit-click="enviarCorreo">Enviar correo</button-submit>
+    </form>
   </div-centro-pantalla>
 </template>
 <script>
@@ -12,24 +14,25 @@ import InputControl from "@/components/generales/formularios/InputControl.vue";
 import globalHelpers from "@/helpers/globalHelpers.vue";
 import DivCentroPantalla from "@/components/generales/DivCentroPantalla.vue";
 import FormLabel from "@/components/generales/formularios/FormLabel.vue";
+import ButtonSubmit from "@/components/generales/formularios/ButtonSubmit.vue";
 
 export default {
   name: "RecuperarContrasena",
-  components: {FormLabel, DivCentroPantalla, InputControl},
+  components: {ButtonSubmit, FormLabel, DivCentroPantalla, InputControl},
   data() {
     return {
-      email: ""
+      correo: ""
     }
   },
   methods: {
     enviarCorreo() {
-      axios.post(process.env.VUE_APP_API_BASE_URL+"recuperar-contrasena",
+      axios.post(process.env.VUE_APP_API_BASE_URL+"recuperar-cuenta",
           {
-            email: this.email
+            correo: this.correo
           })
           .then(() => {
             console.log("OK");
-            globalHelpers.mostrarToast("Se ha mandado un correo para que puedas cambiar la contraseña. Revisa tu buzón de correo", "success")
+            globalHelpers.mostrarToast("Se ha mandado un correo para que puedas cambiar la contraseña. Revisa tu buzón de correo")
           })
           .catch(() => {
             console.log("KO");
