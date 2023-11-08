@@ -67,6 +67,21 @@ export default {
             console.log("storage/index.js: action - leyendo décimo dado el id. DecimoID: " + decimoID);
 
             return state.misDecimos.find(item => item.id == decimoID);
+        },
+
+        dameDecimosAgrupadosPorSorteo: (state) => {
+            var decimosAgrupados = {};
+
+            if(state.misDecimos){
+                state.misDecimos.forEach(item => {
+                    if(!decimosAgrupados[item.sorteo]){
+                        decimosAgrupados[item.sorteo] = [];
+                    }else{
+                        decimosAgrupados[item.sorteo].push(item);
+                    }
+                });
+            }
+            return decimosAgrupados;
         }
     }
 }
