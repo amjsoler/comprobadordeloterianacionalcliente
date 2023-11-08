@@ -45,9 +45,13 @@
             </div>
           </div>
         </div>
-        <router-link :to="{name:'CrearDecimo'}">
-          Nuevo décimo
-        </router-link>
+        <div class="fixed-bottom mb-75 text-center">
+          <router-link :to="{name:'CrearDecimo'}"
+                       class="btn btn-primary">
+            <span class="material-symbols-outlined align-bottom">add</span>
+            Nuevo décimo
+          </router-link>
+        </div>
     </div>
 </template>
 
