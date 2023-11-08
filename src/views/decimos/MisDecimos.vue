@@ -1,5 +1,10 @@
 <template>
-    <div>
+    <div :class="{'h-100': !Object.keys(this.dameDecimosAgrupadosPorSorteo).length}">
+        <div-centro-pantalla v-if="!Object.keys(this.dameDecimosAgrupadosPorSorteo).length">
+          <p class="text-center">Todavía no has añadido ningún décimo</p>
+          <br>
+          <p class="text-center">Añade tus décimos y te avisaremos con los resultados cuando se celebre el sorteo</p>
+        </div-centro-pantalla>
         <div v-for="(decimos, key) in dameDecimosAgrupadosPorSorteo"
             v-bind:key="key">
           <div class="row">
@@ -21,6 +26,14 @@
           <div v-for="decimo in decimos"
                v-bind:key="decimo.id"
                class="card mb-3 text-decoration-none cursor-pointer">
+            <div class="d-inline-flex position-absolute w-100 h-100 align-items-center justify-content-around fondo-decimo-ajustes">
+              <div>
+                <span class="material-symbols-outlined align-bottom text-warning fs-10 fw-bold">edit</span>
+              </div>
+              <div @click="alert('hola')" data-bs-toggle="modal" data-bs-target="#modal-eliminacion-decimo">
+                <span class="material-symbols-outlined align-bottom text-danger fs-10 fw-bold">delete</span>
+              </div>
+            </div>
             <div class="g-0 d-flex">
               <div class="col-8">
 
@@ -47,25 +60,40 @@
         </div>
         <div class="fixed-bottom mb-75 text-center">
           <router-link :to="{name:'CrearDecimo'}"
-                       class="btn btn-primary">
+                       class="btn btn-primary"
+                      :class="{'aura-naranja': !Object.keys(this.dameDecimosAgrupadosPorSorteo).length}">
             <span class="material-symbols-outlined align-bottom">add</span>
             Nuevo décimo
           </router-link>
         </div>
     </div>
+  <modal-general titulo="¡Atención!" id="modal-eliminacion-decimo">
+    <p>Estás a punto de eliminar el décimo ¿Estás seguro de querer continuar?</p>
+    <div class="row">
+      <button type="button" class="btn btn-primary col-7 offset-1" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+      <button class="btn btn-danger col-2 offset-1" @click.prevent="eliminarDecimo()">
+        <span class="material-symbols-outlined align-bottom fw-bold">delete</span>
+      </button>
+    </div>
+  </modal-general>
 </template>
 
 <script>
 import axios from "axios";
 import {mapActions, mapGetters} from "vuex";
+import DivCentroPantalla from "@/components/generales/DivCentroPantalla.vue";
+import ModalGeneral from "@/components/generales/modales/ModalGeneral.vue";
+import globalHelpers from "@/helpers/globalHelpers.vue";
+import router from "@/router";
 
 export default {
   name: "MisDecimos",
-  data() {
-    return  {
-      decimosAgrupados: {}
+  data () {
+    return {
+      decimoABorrar: null,
     }
   },
+  components: {ModalGeneral, DivCentroPantalla},
   computed:{
     ...mapGetters({
       dameDecimosAgrupadosPorSorteo: "decimos/dameDecimosAgrupadosPorSorteo"
@@ -75,10 +103,11 @@ export default {
   methods: {
     ...mapActions({
       almacenarListadoMisDecimosAction: "decimos/almacenarListadoMisDecimosAction",
+      eliminarDecimoAction: "decimos/eliminarDecimoAction"
     }),
 
     dimeSiSorteoConResultadosDadoArrayDeDecimos(decimos){
-      if(decimos[0].sorteo_perteneciente.resultados){
+      if(decimos[0] && decimos[0].sorteo_perteneciente && decimos[0].sorteo_perteneciente.resultados){
         return true;
       }
       else{
@@ -92,6 +121,26 @@ export default {
 
     dameUrlImagenDecimoDadoIdSorteo(sorteoId) {
       return process.env.VUE_APP_BASE_URL + "storage/sorteos/" + sorteoId + ".jpeg";
+    },
+
+    eliminarDecimo(){
+      console.log("MisDecimos.vue: Entrando al eliminar décimo. Mandando petición para elimiar el décimo en el back");
+
+      axios.delete(process.env.VUE_APP_API_BASE_URL+"mis-decimos/"+this.decimoABorrar)
+          .then(() => {
+            console.log("MisDecimos.vue: Response OK");
+
+            this.eliminarDecimoAction(this.decimoABorrar);
+
+            globalHelpers.mostrarToast("El décimo ha sido eliminado correctamente", "success");
+
+            router.push({name: 'MisDecimos'});
+          })
+          .catch(error => {
+            console.log("VerDecimo.vue: Response KO");
+            console.log(error);
+          })
+
     }
   },
   mounted() {

@@ -70,17 +70,19 @@ export default {
         },
 
         dameDecimosAgrupadosPorSorteo: (state) => {
+            console.log("Agrupando decimos por fecha de sorteo en dameDecimosAgrupadosPorSorteo");
             var decimosAgrupados = {};
 
             if(state.misDecimos){
                 state.misDecimos.forEach(item => {
                     if(!decimosAgrupados[item.sorteo]){
-                        decimosAgrupados[item.sorteo] = [];
+                        decimosAgrupados[item.sorteo] = [item];
                     }else{
                         decimosAgrupados[item.sorteo].push(item);
                     }
                 });
             }
+
             return decimosAgrupados;
         }
     }

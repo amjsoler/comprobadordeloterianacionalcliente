@@ -3,7 +3,7 @@ html, body, .container {
 }
 
 .container > div {
-    padding-bottom: 75px;
+    padding-bottom: 125px;
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -31,6 +31,12 @@ a, label {
     background: rgb(253,137,86) !important;
     background: linear-gradient(90deg, rgb(253, 137, 76) 0%, rgba(252,183,132,1) 100%) !important;
 
+}
+
+.aura-naranja {
+    box-shadow: -2px 0px 149px 21px rgba(253,137,76,1);
+    -webkit-box-shadow: -2px 0px 149px 21px rgba(253,137,76,1);
+    -moz-box-shadow: -2px 0px 149px 21px rgba(253,137,76,1);
 }
 
 .btn-primary:hover {
@@ -100,8 +106,16 @@ nav.navbar {
     color: #DA7540 !important;
 }
 
+.fondo-decimo-ajustes {
+    background-color: #FFFFFFDD !important;
+}
+
 .cursor-pointer {
     cursor: pointer;
+}
+
+.fs-10 {
+    font-size: 3rem;
 }
 
 .girando {
