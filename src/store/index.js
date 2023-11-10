@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import router from "@/router";
 import decimos from "@/store/decimos";
+import resultados from "@/store/resultados";
 
 export default createStore({
   strict: true,
@@ -22,7 +23,7 @@ export default createStore({
       state.tokenAuth = newTokenSesion;
     },
 
-    cerrarSesion(state) {
+    cerrarSesionMutation(state) {
       console.log("storage/index.js: mutation - cerrando sesión de state");
       state.tokenAuth = "";
     },
@@ -51,13 +52,13 @@ export default createStore({
       //Almaceno en el state para la sesión actual
       commit("almacenarTokenSesion", newTokenSesion);
     },
-    cerrarSesion({commit}) {
+    cerrarSesionAction({commit}) {
       console.log("storage/index.js: action - Borrando token del storage");
       //Borrando el token del localstorage
       window.localStorage.removeItem("tokenAuth");
 
       //Llamada al mutator cerrar sesión
-      commit("cerrarSesion");
+      commit("cerrarSesionMutation");
 
       //Finalmente redirijo a iniciar sesión
       router.push({name:"IniciarSesion"});
@@ -81,6 +82,7 @@ export default createStore({
     }
   },
   modules: {
-    decimos
+    decimos,
+    resultados
   }
 })

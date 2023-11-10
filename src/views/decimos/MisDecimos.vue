@@ -23,14 +23,21 @@
               <span class="material-symbols-outlined">archive</span>
             </div>
           </div>
-          <div v-for="decimo in decimos"
+          <div  :id="'tarjeta-decimo-'+decimo.id"
+              v-for="decimo in decimos"
                v-bind:key="decimo.id"
-               class="card mb-3 text-decoration-none cursor-pointer">
-            <div class="d-inline-flex position-absolute w-100 h-100 align-items-center justify-content-around fondo-decimo-ajustes">
-              <div>
-                <span class="material-symbols-outlined align-bottom text-warning fs-10 fw-bold">edit</span>
+               class="card mb-3 text-decoration-none cursor-pointer tarjeta-decimo"
+              @click="mostrarPanelOpciones">
+            <div class="d-inline-flex align-items-center justify-content-around fondo-decimo-ajustes panel-opciones">
+              <div class="position-absolute top-0 end-0">
+                <span @click.self.stop="cerrarPanelOpciones" class="material-symbols-outlined dimgrey fw-bold fs-7">close</span>
               </div>
-              <div @click="alert('hola')" data-bs-toggle="modal" data-bs-target="#modal-eliminacion-decimo">
+              <div>
+                <router-link :to="{name: 'EditarDecimo', params: {id:decimo.id}}">
+                  <span class="material-symbols-outlined align-bottom text-warning fs-10 fw-bold">edit</span>
+                </router-link>
+              </div>
+              <div @click.prevent="guardarDecimoABorrar(decimo.id)" data-bs-toggle="modal" data-bs-target="#modal-eliminacion-decimo">
                 <span class="material-symbols-outlined align-bottom text-danger fs-10 fw-bold">delete</span>
               </div>
             </div>
@@ -90,7 +97,7 @@ export default {
   name: "MisDecimos",
   data () {
     return {
-      decimoABorrar: null,
+      decimoAManipular: null,
     }
   },
   components: {ModalGeneral, DivCentroPantalla},
@@ -105,6 +112,24 @@ export default {
       almacenarListadoMisDecimosAction: "decimos/almacenarListadoMisDecimosAction",
       eliminarDecimoAction: "decimos/eliminarDecimoAction"
     }),
+
+    mostrarPanelOpciones(event){
+      event.target.closest(".tarjeta-decimo")
+          .getElementsByClassName("panel-opciones")[0]
+          .classList.add("panel-opciones-visible");
+      event.target.closest(".tarjeta-decimo")
+          .getElementsByClassName("panel-opciones")[0]
+          .classList.remove("panel-opciones-oculto")
+    },
+
+    cerrarPanelOpciones(event) {
+        event.target.closest(".panel-opciones").classList.add("panel-opciones-oculto");
+        event.target.closest(".panel-opciones").classList.remove("panel-opciones-visible");
+    },
+
+    guardarDecimoABorrar(decimoId){
+      this.decimoAManipular = decimoId;
+    },
 
     dimeSiSorteoConResultadosDadoArrayDeDecimos(decimos){
       if(decimos[0] && decimos[0].sorteo_perteneciente && decimos[0].sorteo_perteneciente.resultados){
@@ -126,13 +151,15 @@ export default {
     eliminarDecimo(){
       console.log("MisDecimos.vue: Entrando al eliminar décimo. Mandando petición para elimiar el décimo en el back");
 
-      axios.delete(process.env.VUE_APP_API_BASE_URL+"mis-decimos/"+this.decimoABorrar)
+      axios.delete(process.env.VUE_APP_API_BASE_URL+"mis-decimos/"+this.decimoAManipular)
           .then(() => {
             console.log("MisDecimos.vue: Response OK");
 
-            this.eliminarDecimoAction(this.decimoABorrar);
+            this.eliminarDecimoAction(this.decimoAManipular);
 
             globalHelpers.mostrarToast("El décimo ha sido eliminado correctamente", "success");
+
+            globalHelpers.cerrarTodosLosModalesAbiertos();
 
             router.push({name: 'MisDecimos'});
           })

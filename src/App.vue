@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import MenuInferior from "@/components/MenuInferior.vue";
-import ToastApp from "@/components/toasts/ToastApp.vue";
+import MenuInferior from "@/components/generales/MenuInferior.vue";
+import ToastApp from "@/components/generales/toasts/ToastApp.vue";
 
 export default {
   name: "App",

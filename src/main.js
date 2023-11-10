@@ -48,7 +48,7 @@ axios.interceptors.response.use(response => {
         console.log("main.js: Response error captured. 401. Eliminando token de storage y state y redirigiendo a login");
         //TODO: Comprobar qué pasa cuandoe l token caduca en el servidor
         //TODO: Comprobar aquí si ya estamos en login para no redirigir
-        store.dispatch("cerrarSesion");
+        store.dispatch("cerrarSesionAction");
     }
 
     else if(error.response.status == 403){

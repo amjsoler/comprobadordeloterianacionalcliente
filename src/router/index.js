@@ -164,7 +164,7 @@ function sincronizarTokens(){
   if (store.state.tokenAuth && window.localStorage.getItem("tokenAuth")) {
     if (store.state.tokenAuth != window.localStorage.getItem("tokenAuth")) {
       //Si hay token en las dos fuentes pero son distintos, significa que se han desincronizado por alguna razón, los borro y redirijo a login
-      store.dispatch("cerrarSesion");
+      store.dispatch("cerrarSesionAction");
     }
   }else{
     if(store.state.tokenAuth){

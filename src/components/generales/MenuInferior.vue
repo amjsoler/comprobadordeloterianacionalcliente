@@ -10,7 +10,7 @@
             <span class="material-symbols-outlined w-100 icono">local_activity</span>
             <span class="fuente-menu d-block mt-2 lh-1">Mis décimos</span>
         </router-link>
-        <router-link :to="{name: 'ComprobarDecimo'}"
+        <router-link :to="{name: 'ComprobarDecimoQR'}"
                      class="d-block w-100 text-center text-decoration-none text-secondary">
             <span class="material-symbols-outlined w-100 icono">qr_code_scanner</span>
             <span class="fuente-menu d-block mt-2 lh-1">Comprobar décimo</span>
