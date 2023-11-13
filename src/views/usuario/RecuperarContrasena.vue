@@ -2,7 +2,8 @@
   <div-centro-pantalla>
     <form>
       <form-label>Dirección de correo</form-label>
-      <input-control type="email" v-model="correo" />
+      <input-control type="email" required="required" v-model="correo" />
+      <input-error v-if="errors.correo">{{ errors.correo[0] }}</input-error>
       <button-submit @submit-click="enviarCorreo">Enviar correo</button-submit>
     </form>
   </div-centro-pantalla>
@@ -15,14 +16,19 @@ import globalHelpers from "@/helpers/globalHelpers.vue";
 import DivCentroPantalla from "@/components/generales/DivCentroPantalla.vue";
 import FormLabel from "@/components/generales/formularios/FormLabel.vue";
 import ButtonSubmit from "@/components/generales/formularios/ButtonSubmit.vue";
+import InputError from "@/components/generales/formularios/InputError.vue";
+import {mapState} from "vuex";
 
 export default {
   name: "RecuperarContrasena",
-  components: {ButtonSubmit, FormLabel, DivCentroPantalla, InputControl},
+  components: {InputError, ButtonSubmit, FormLabel, DivCentroPantalla, InputControl},
   data() {
     return {
       correo: ""
     }
+  },
+  computed: {
+    ...mapState(["errors", "message"])
   },
   methods: {
     enviarCorreo() {

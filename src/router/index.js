@@ -7,14 +7,15 @@ import IniciarSesion from "@/views/usuario/IniciarSesion.vue";
 import RegistroUsuario from "@/views/usuario/RegistroUsuario.vue";
 import RecuperarContrasena from "@/views/usuario/RecuperarContrasena.vue";
 import MisDecimos from "@/views/decimos/MisDecimos.vue";
-import ComprobarDecimo from "@/views/decimos/ComprobarDecimo.vue";
-import ComprobarDecimoQR from "@/views/decimos/ComprobarDecimoQR.vue";
+import ComprobarDecimo from "@/views/resultados/ComprobarDecimo.vue";
+import ComprobarDecimoQR from "@/views/resultados/ComprobarDecimoQR.vue";
 import UltimosResultados from "@/views/resultados/UltimosResultados.vue";
 import CuentaUsuario from "@/views/usuario/CuentaUsuario.vue";
 import BuscarDecimo from "@/views/decimos/BuscarDecimo.vue";
 import CrearDecimo from "@/views/decimos/CrearDecimo.vue";
 import EditarDecimo from "@/views/decimos/EditarDecimo.vue";
 import VerDecimo from "@/views/decimos/VerDecimo.vue";
+import ResultadosComprobacion from "@/views/resultados/ResultadosComprobacion.vue";
 
 const routes = [
     //Rutas de USUARIO
@@ -101,6 +102,12 @@ const routes = [
     path: '/ultimos-resultados',
     name: 'UltimosResultados',
     component: UltimosResultados,
+  },
+
+  {
+    path: '/resultados-comprobacion',
+    name: 'ResultadosComprobacion',
+    component: ResultadosComprobacion,
   },
 ]
 

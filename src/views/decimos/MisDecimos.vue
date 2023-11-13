@@ -19,7 +19,8 @@
               </p>
             </div>
             <div v-if="dimeSiSorteoConResultadosDadoArrayDeDecimos(decimos)"
-                 class="col-2 d-flex align-items-center text-danger">
+                 class="col-2 d-flex align-items-center text-danger"
+                  @click="archivarDecimos(decimos[0].sorteo)">
               <span class="material-symbols-outlined">archive</span>
             </div>
           </div>
@@ -92,6 +93,7 @@ import DivCentroPantalla from "@/components/generales/DivCentroPantalla.vue";
 import ModalGeneral from "@/components/generales/modales/ModalGeneral.vue";
 import globalHelpers from "@/helpers/globalHelpers.vue";
 import router from "@/router";
+import GlobalHelpers from "@/helpers/globalHelpers.vue";
 
 export default {
   name: "MisDecimos",
@@ -168,7 +170,24 @@ export default {
             console.log(error);
           })
 
-    }
+    },
+
+    archivarDecimos(idSorteo){
+        axios.get(process.env.VUE_APP_API_BASE_URL+"archivar-decimos/"+idSorteo)
+            .then(response => {
+
+              //Ahora quito los décimos archivados del listado
+              response.data.map(decimoEliminado => {
+                console.log("EliminarDecimo: " + decimoEliminado.id);
+                  this.eliminarDecimoAction(decimoEliminado.id)
+              });
+
+              GlobalHelpers.mostrarToast("Los décimos se han archivado correctamente", "success");
+            })
+            .catch(error => {
+              console.log(error);
+            })
+    },
   },
   mounted() {
     console.log("MisDecimos.vue: Entrando a mis decimos. Mandando petición para leer los décimos");

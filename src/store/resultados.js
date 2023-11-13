@@ -3,6 +3,8 @@ export default {
     state: {
         ultimosResultados: [],
         selectedIndex: "",
+        decimoAComprobar: {},
+        premioObtenido: {}
     },
     mutations: {
         almacenarUltimosResultadosMutation(state, resultados) {
@@ -18,6 +20,21 @@ export default {
             state.selectedIndex = seleccionado;
 
             console.log("resultados.js: saliendo del almacenarSelectedIndexMutation");
+        },
+        almacenarDecimoAComprobarMutation(state, decimoAComprobar) {
+            console.log("resultados.js: entrando a almacenarDecimoAComprobarMutation");
+
+            state.decimoAComprobar = decimoAComprobar;
+
+            console.log("resultados.js: saliendo del almacenarDecimoAComprobarMutation");
+        },
+
+        almacenarPremioObtenido(state, premioObtenido) {
+            console.log("resultados.js: entrando a almacenarPremioObtenido");
+
+            state.premioObtenido = premioObtenido;
+
+            console.log("resultados.js: saliendo del almacenarPremioObtenido");
         }
     },
     actions: {
@@ -37,6 +54,22 @@ export default {
             commit("almacenarSelectedIndexMutation", seleccionado);
 
             console.log("resultados.js: saliendo del  almacenarSelectedIndexAction");
+        },
+
+        almacenarDecimoAComprobarAction({commit}, decimoAComprobar) {
+            console.log("resultados.js: entrando a almacenarDecimoAComprobarAction");
+
+            commit("almacenarDecimoAComprobarMutation", decimoAComprobar);
+
+            console.log("resultados.js: saliendo del almacenarDecimoAComprobarAction");
+        },
+
+        almacenarPremioObtenido({commit}, premioObtenido) {
+            console.log("resultados.js: entrando a almacenarPremioObtenido");
+
+            commit("almacenarPremioObtenido", premioObtenido);
+
+            console.log("resultados.js: saliendo del almacenarPremioObtenido");
         }
     }
 }
