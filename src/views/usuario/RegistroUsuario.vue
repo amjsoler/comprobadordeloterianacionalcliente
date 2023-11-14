@@ -1,32 +1,30 @@
 <template>
-  <div-centro-pantalla>
-    <form-card>
-      <form>
-        <form-group>
-          <form-label>Nombre</form-label>
-          <input-control type="text" v-model="name" autofocus />
-          <input-error v-if="errors.name">{{ errors.name[0] }}</input-error>
-        </form-group>
-        <form-group>
-          <form-label>Correo electrónico</form-label>
-          <input-control type="email" v-model="email" />
-          <input-error v-if="errors.email">{{ errors.email[0] }}</input-error>
-        </form-group>
-        <form-group>
-          <form-label>Contraseña</form-label>
-          <input-control type="password" v-model="password" />
-          <input-error v-if="errors.password">{{ errors.password[0] }}</input-error>
-        </form-group>
-        <form-group>
-          <form-label>Repetir contraseña</form-label>
-          <input-control type="password" v-model="password_confirmation" />
-          <input-error v-if="errors.password_confirmation">{{ errors.password_confirmation[0] }}</input-error>
-        </form-group>
+  <contenedor-centrado>
+    <form>
+      <form-group>
+        <form-label>Nombre</form-label>
+        <input-control type="text" v-model="name" autofocus />
+        <input-error v-if="errors.name">{{ errors.name[0] }}</input-error>
+      </form-group>
+      <form-group>
+        <form-label>Correo electrónico</form-label>
+        <input-control type="email" v-model="email" />
+        <input-error v-if="errors.email">{{ errors.email[0] }}</input-error>
+      </form-group>
+      <form-group>
+        <form-label>Contraseña</form-label>
+        <input-control type="password" v-model="password" />
+        <input-error v-if="errors.password">{{ errors.password[0] }}</input-error>
+      </form-group>
+      <form-group>
+        <form-label>Repetir contraseña</form-label>
+        <input-control type="password" v-model="password_confirmation" />
+        <input-error v-if="errors.password_confirmation">{{ errors.password_confirmation[0] }}</input-error>
+      </form-group>
 
-        <button-submit @submit-click="enviarFormularioRegistro">Registrarse</button-submit>
-      </form>
-    </form-card>
-  </div-centro-pantalla>
+      <button-submit @submit-click="enviarFormularioRegistro">Registrarse</button-submit>
+    </form>
+  </contenedor-centrado>
 </template>
 
 <script>
@@ -36,17 +34,18 @@ import router from "@/router";
 import FormLabel from "@/components/generales/formularios/FormLabel.vue";
 import FormGroup from "@/components/generales/formularios/FormGroup.vue";
 import InputError from "@/components/generales/formularios/InputError.vue";
-import FormCard from "@/components/generales/formularios/FormCard.vue";
-import DivCentroPantalla from "@/components/generales/DivCentroPantalla.vue";
 import ButtonSubmit from "@/components/generales/formularios/ButtonSubmit.vue";
 import InputControl from "@/components/generales/formularios/InputControl.vue";
 import store from "@/store";
 import {mapState} from "vuex";
 import GlobalHelpers from "@/helpers/globalHelpers.vue";
+import ContenedorCentrado from "@/components/generales/layout/ContenedorCentrado.vue";
 
 export default {
   name:"RegistroUsuario",
-  components: {InputControl, ButtonSubmit, DivCentroPantalla, FormCard, InputError, FormGroup, FormLabel},
+  components: {
+    ContenedorCentrado,
+    InputControl, ButtonSubmit, InputError, FormGroup, FormLabel},
 
   data() {
     return {
@@ -76,7 +75,7 @@ export default {
               console.log("RegistrarUsuario.vue: Respuesta OK a la peticiión de registro");
 
               //Almaceno el token de sesión
-              store.dispatch("almacenarTokenSesion", response.data.access_token);
+              store.dispatch("almacenarTokenSesionAction", response.data.access_token);
 
               //también almaceno los décimos del usuario para tenerlos sincronizados
               store.dispatch("almacenarMisDecimos",response.data.misdecimos);

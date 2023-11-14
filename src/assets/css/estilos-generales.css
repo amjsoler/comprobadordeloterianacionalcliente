@@ -2,10 +2,6 @@ html, body, .container {
     height: 100%;
 }
 
-.container > div {
-    padding-bottom: 125px;
-}
-
 h1,h2,h3,h4,h5,h6 {
     color: rgba(0, 0, 0, 0.6);
 }
@@ -106,55 +102,12 @@ nav.navbar {
     color: #DA7540 !important;
 }
 
-.fondo-decimo-ajustes {
-    background-color: #FFFFFFDD !important;
-}
-
-.panel-opciones {
-    visibility: hidden;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0px;
-    bottom: 0px;
-}
-
-.panel-opciones-oculto {
-    visibility: visible;
-    animation: FadeOutFordward 1s ease 0s 1 normal forwards;
-}
-
-.panel-opciones-visible {
-    visibility: visible;
-    animation: fadeInFromLeft 1s ease 0s 1 normal forwards;
-}
-
-@keyframes FadeOutFordward {
-    0% {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    100% {
-        opacity: 0;
-        transform: scale(1.4);
-    }
-}
-
-@keyframes fadeInFromLeft {
-    0% {
-        opacity: 0;
-        transform: translateX(-50px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
 .cursor-pointer {
     cursor: pointer;
+}
+
+.mb-75 {
+    margin-bottom: 75px;
 }
 
 .fs-6 {
@@ -184,10 +137,6 @@ nav.navbar {
     animation-timing-function: linear;
 }
 
-.login-logo {
-    margin-top: -50px;
-}
-
 @keyframes spin {
     from {
         transform:rotate(0deg);
@@ -196,8 +145,3 @@ nav.navbar {
         transform:rotate(360deg);
     }
 }
-
-.mb-75 {
-    margin-bottom: 75px;
-}
-

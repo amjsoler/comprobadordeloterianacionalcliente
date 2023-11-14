@@ -6,7 +6,7 @@ export default {
     },
     mutations: {
         nuevoDecimoMutation(state, decimo){
-            console.log("storage/index.js: mutation - almacenando nuevo décimo en el global state");
+            console.log("storage/index.js: nuevoDecimoMutation - almacenando nuevo décimo en el global state");
 
             state.misDecimos.push(decimo);
         },
@@ -26,6 +26,7 @@ export default {
 
             state.misDecimos.splice(index, 1);
         },
+
         almacenarListadoMisDecimosMutation(state, misDecimos) {
             console.log("storage/index.js: mutation - almacenando el listado de mis decimos en el global state");
 
@@ -38,28 +39,28 @@ export default {
 
             commit("nuevoDecimoMutation", decimo);
 
-            window.localStorage.setItem("misdecimos", state.misDecimos);
+            window.localStorage.setItem("misdecimos", JSON.stringify(state.misDecimos));
         },
         EditarDecimoAction({state, commit}, decimo){
             console.log("storage/index.js: action - editar décimo");
 
             commit("editarDecimoMutation", decimo);
 
-            window.localStorage.setItem("misdecimos", state.misDecimos);
+            window.localStorage.setItem("misdecimos", JSON.stringify(state.misDecimos));
         },
         eliminarDecimoAction({state, commit}, decimoID){
             console.log("storage/index.js: action - eliminar décimo");
 
             commit("eliminarDecimoMutation", decimoID);
 
-            window.localStorage.setItem("misdecimos", state.misDecimos);
+            window.localStorage.setItem("misdecimos", JSON.stringify(state.misDecimos));
         },
-        almacenarListadoMisDecimosAction({commit}, misDecimos) {
+        almacenarListadoMisDecimosAction({state, commit}, misDecimos) {
             console.log("storage/index.js: action - almacenar mis decimos");
 
             commit("almacenarListadoMisDecimosMutation", misDecimos);
 
-            window.localStorage.setItem("misdecimos", misDecimos);
+            window.localStorage.setItem("misdecimos", JSON.stringify(state.misDecimos));
         },
     },
     getters: {

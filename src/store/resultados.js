@@ -29,7 +29,7 @@ export default {
             console.log("resultados.js: saliendo del almacenarDecimoAComprobarMutation");
         },
 
-        almacenarPremioObtenido(state, premioObtenido) {
+        almacenarPremioObtenidoMutation(state, premioObtenido) {
             console.log("resultados.js: entrando a almacenarPremioObtenido");
 
             state.premioObtenido = premioObtenido;
@@ -64,10 +64,10 @@ export default {
             console.log("resultados.js: saliendo del almacenarDecimoAComprobarAction");
         },
 
-        almacenarPremioObtenido({commit}, premioObtenido) {
+        almacenarPremioObtenidoAction({commit}, premioObtenido) {
             console.log("resultados.js: entrando a almacenarPremioObtenido");
 
-            commit("almacenarPremioObtenido", premioObtenido);
+            commit("almacenarPremioObtenidoMutation", premioObtenido);
 
             console.log("resultados.js: saliendo del almacenarPremioObtenido");
         }

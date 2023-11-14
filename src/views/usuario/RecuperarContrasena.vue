@@ -13,7 +13,7 @@ import axios from "axios";
 
 import InputControl from "@/components/generales/formularios/InputControl.vue";
 import globalHelpers from "@/helpers/globalHelpers.vue";
-import DivCentroPantalla from "@/components/generales/DivCentroPantalla.vue";
+import DivCentroPantalla from "@/components/generales/layout/DivCentroPantalla.vue";
 import FormLabel from "@/components/generales/formularios/FormLabel.vue";
 import ButtonSubmit from "@/components/generales/formularios/ButtonSubmit.vue";
 import InputError from "@/components/generales/formularios/InputError.vue";

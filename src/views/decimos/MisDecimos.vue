@@ -24,7 +24,7 @@
               <span class="material-symbols-outlined">archive</span>
             </div>
           </div>
-          <div  :id="'tarjeta-decimo-'+decimo.id"
+          <div :id="'tarjeta-decimo-'+decimo.id"
               v-for="decimo in decimos"
                v-bind:key="decimo.id"
                class="card mb-3 text-decoration-none cursor-pointer tarjeta-decimo"
@@ -86,10 +86,59 @@
   </modal-general>
 </template>
 
+<style scoped>
+  .fondo-decimo-ajustes {
+    background-color: #FFFFFFDD !important;
+  }
+
+  .panel-opciones {
+    visibility: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    bottom: 0px;
+  }
+
+  .panel-opciones-oculto {
+    visibility: visible;
+    animation: FadeOutFordward 1s ease 0s 1 normal forwards;
+  }
+
+  .panel-opciones-visible {
+    visibility: visible;
+    animation: fadeInFromLeft 1s ease 0s 1 normal forwards;
+  }
+
+  @keyframes FadeOutFordward {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    100% {
+      opacity: 0;
+      transform: scale(1.4);
+    }
+  }
+
+  @keyframes fadeInFromLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+</style>
+
 <script>
 import axios from "axios";
 import {mapActions, mapGetters} from "vuex";
-import DivCentroPantalla from "@/components/generales/DivCentroPantalla.vue";
+import DivCentroPantalla from "@/components/generales/layout/DivCentroPantalla.vue";
 import ModalGeneral from "@/components/generales/modales/ModalGeneral.vue";
 import globalHelpers from "@/helpers/globalHelpers.vue";
 import router from "@/router";
@@ -112,7 +161,7 @@ export default {
   methods: {
     ...mapActions({
       almacenarListadoMisDecimosAction: "decimos/almacenarListadoMisDecimosAction",
-      eliminarDecimoAction: "decimos/eliminarDecimoAction"
+      eliminarDecimoAction: "decimos/eliminarDecimoAction",
     }),
 
     mostrarPanelOpciones(event){

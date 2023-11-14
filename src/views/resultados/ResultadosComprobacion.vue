@@ -20,7 +20,7 @@
 </template>
 <script>
 import {mapState} from "vuex";
-import DivCentroPantalla from "@/components/generales/DivCentroPantalla.vue";
+import DivCentroPantalla from "@/components/generales/layout/DivCentroPantalla.vue";
 
 export default {
   components: {DivCentroPantalla},

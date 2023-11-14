@@ -35,7 +35,7 @@ export default {
   methods: {
     ...mapActions({
       almacenarDecimoAComprobarAction: "resultados/almacenarDecimoAComprobarAction",
-      almacenarPremioObtenido: "resultados/almacenarPremioObtenido"
+      almacenarPremioObtenido: "resultados/almacenarPremioObtenidoAction"
     }),
 
     onDectect(detectedCodes) {

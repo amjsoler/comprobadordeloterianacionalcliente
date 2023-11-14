@@ -11,11 +11,10 @@ import ComprobarDecimo from "@/views/resultados/ComprobarDecimo.vue";
 import ComprobarDecimoQR from "@/views/resultados/ComprobarDecimoQR.vue";
 import UltimosResultados from "@/views/resultados/UltimosResultados.vue";
 import CuentaUsuario from "@/views/usuario/CuentaUsuario.vue";
-import BuscarDecimo from "@/views/decimos/BuscarDecimo.vue";
 import CrearDecimo from "@/views/decimos/CrearDecimo.vue";
 import EditarDecimo from "@/views/decimos/EditarDecimo.vue";
-import VerDecimo from "@/views/decimos/VerDecimo.vue";
 import ResultadosComprobacion from "@/views/resultados/ResultadosComprobacion.vue";
+import ForbiddenResource from "@/views/ForbiddenResource.vue";
 
 const routes = [
     //Rutas de USUARIO
@@ -58,14 +57,6 @@ const routes = [
     }
   },
   {
-    path: '/mis-decimos/:id',
-    name: 'VerDecimo',
-    component: VerDecimo,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: '/mis-decimos/crear',
     name: 'CrearDecimo',
     component: CrearDecimo,
@@ -91,11 +82,6 @@ const routes = [
     name: 'ComprobarDecimoQR',
     component: ComprobarDecimoQR,
   },
-  {
-    path: '/decimos/buscar',
-    name: 'BuscarDecimo',
-    component: BuscarDecimo,
-  },
 
     //RUTAS DE RESULTADOS
   {
@@ -108,6 +94,12 @@ const routes = [
     path: '/resultados-comprobacion',
     name: 'ResultadosComprobacion',
     component: ResultadosComprobacion,
+  },
+
+  {
+    path: '/forbidden-resource',
+    name: 'ForbiddenResource',
+    component: ForbiddenResource,
   },
 ]
 
@@ -123,7 +115,7 @@ const router = createRouter({
 */
 router.beforeEach((to, from, next) => {
   //Vacío el global state de validaciones
-  store.dispatch("vaciarValidaciones");
+  store.dispatch("vaciarValidacionesAction");
 
   //Cierro modales que puedan quedar abiertos
   globalHelpers.cerrarTodosLosModalesAbiertos();
@@ -137,7 +129,7 @@ router.beforeEach((to, from, next) => {
 
     //Si el token de store y el token de localstorage están establecidos continuo la redirección
     if (store.state.tokenAuth && window.localStorage.getItem("tokenAuth") &&
-        store.state.tokenAuth == window.localStorage.getItem("tokenAuth")) {
+        store.state.tokenAuth === window.localStorage.getItem("tokenAuth")) {
       console.log("router/index.js: Tenemos token en state y storage por tanto dejo continuar");
       next();
     } else {
@@ -169,16 +161,16 @@ router.beforeEach((to, from, next) => {
 
 function sincronizarTokens(){
   if (store.state.tokenAuth && window.localStorage.getItem("tokenAuth")) {
-    if (store.state.tokenAuth != window.localStorage.getItem("tokenAuth")) {
+    if (store.state.tokenAuth !== window.localStorage.getItem("tokenAuth")) {
       //Si hay token en las dos fuentes pero son distintos, significa que se han desincronizado por alguna razón, los borro y redirijo a login
       store.dispatch("cerrarSesionAction");
     }
   }else{
     if(store.state.tokenAuth){
-      store.dispatch("almacenarTokenSesion", store.state.tokenAuth);
+      store.dispatch("almacenarTokenSesionAction", store.state.tokenAuth);
     }else{
       if (window.localStorage.getItem("tokenAuth")) {
-        store.dispatch("almacenarTokenSesion", window.localStorage.getItem("tokenAuth"));
+        store.dispatch("almacenarTokenSesionAction", window.localStorage.getItem("tokenAuth"));
       }
     }
   }

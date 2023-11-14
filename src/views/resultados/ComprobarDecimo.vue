@@ -55,7 +55,7 @@ export default {
   methods: {
     ...mapActions({
       almacenarDecimoAComprobarAction: "resultados/almacenarDecimoAComprobarAction",
-      almacenarPremioObtenido: "resultados/almacenarPremioObtenido"
+      almacenarPremioObtenido: "resultados/almacenarPremioObtenidoAction"
     }),
     comprobarDecimo() {
       axios.post(process.env.VUE_APP_API_BASE_URL+"comprobar-decimo",

@@ -1,6 +1,7 @@
 <script>
 import {Modal, Toast} from "bootstrap"
 import store from "@/store";
+import axios from "axios";
 
 export default {
   cerrarTodosLosModalesAbiertos() {
@@ -21,6 +22,18 @@ export default {
 
     //Muestro el toast
     Toast.getOrCreateInstance(document.getElementById("toastApp")).show();
+  },
+
+  logError(mensaje, contexto){
+    console.log("globalHelpers.vue: Entrando al logError");
+
+    axios.post(process.env.VUE_APP_API_BASE_URL+"log-error",
+        {
+          message: mensaje,
+          context: contexto
+        });
+
+    console.log("globalHelpers.vue: Saliendo del logError");
   }
 }
 </script>
