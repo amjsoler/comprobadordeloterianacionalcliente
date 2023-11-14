@@ -17,7 +17,7 @@
       <form-group>
         <button-submit @submit-click="iniciarSesion">Iniciar Sesión</button-submit>
       </form-group>
-      <router-link :to='{name:"RecuperarContrasena"}' class="text-decoration-none text-center w-100 d-block mt-4">
+      <router-link :to='{name:"RecuperarCuenta"}' class="text-decoration-none text-center w-100 d-block mt-4">
         Recordar contraseña
       </router-link>
       <router-link :to='{name:"RegistroUsuario"}' class="text-decoration-none text-center mt-2 w-100 d-block">¿No tienes

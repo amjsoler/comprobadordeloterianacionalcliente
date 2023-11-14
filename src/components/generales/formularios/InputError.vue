@@ -1,5 +1,5 @@
 <template>
-  <span class="text-danger small w-100 text-center d-block mt-1">
+      <span class="text-danger small w-100 text-center d-block mt-1">
     <slot>
     </slot>
   </span>
@@ -7,6 +7,6 @@
 
 <script>
 export default {
-  name:"InputError",
+    name: "InputError",
 }
 </script>

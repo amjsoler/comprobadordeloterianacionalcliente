@@ -6,7 +6,6 @@
 
 <style scoped>
   #contenedor-centrado {
-    overflow: scroll;
     padding-bottom: 75px;
   }
 </style>

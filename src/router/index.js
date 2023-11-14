@@ -5,7 +5,6 @@ import globalHelpers from "@/helpers/globalHelpers.vue";
 
 import IniciarSesion from "@/views/usuario/IniciarSesion.vue";
 import RegistroUsuario from "@/views/usuario/RegistroUsuario.vue";
-import RecuperarContrasena from "@/views/usuario/RecuperarContrasena.vue";
 import MisDecimos from "@/views/decimos/MisDecimos.vue";
 import ComprobarDecimo from "@/views/resultados/ComprobarDecimo.vue";
 import ComprobarDecimoQR from "@/views/resultados/ComprobarDecimoQR.vue";
@@ -15,6 +14,7 @@ import CrearDecimo from "@/views/decimos/CrearDecimo.vue";
 import EditarDecimo from "@/views/decimos/EditarDecimo.vue";
 import ResultadosComprobacion from "@/views/resultados/ResultadosComprobacion.vue";
 import ForbiddenResource from "@/views/ForbiddenResource.vue";
+import RecuperarCuenta from "@/views/usuario/RecuperarCuenta.vue";
 
 const routes = [
     //Rutas de USUARIO
@@ -35,9 +35,9 @@ const routes = [
     },
   },
   {
-    path: '/recuperar-contrasena',
-    name: 'RecuperarContrasena',
-    component: RecuperarContrasena
+    path: '/recuperar-cuenta',
+    name: 'RecuperarCuenta',
+    component: RecuperarCuenta
   },
   {
     path: '/cuenta-usuario',

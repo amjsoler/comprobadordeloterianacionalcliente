@@ -1,5 +1,5 @@
 <template>
-  <div class="toast-container position-fixed d-flex justify-content-center bottom-0 w-100">
+  <div class="toast-container position-fixed w-100">
     <div id="toastApp" class="toast align-items-center"
          :class="dameTipoToast"
          role="alert" aria-live="assertive" aria-atomic="true">
@@ -38,3 +38,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+    .toast-container {
+        bottom: 100px;
+        position: fixed !important;
+        left: 0px;
+    }
+
+    .toast {
+        margin: 0 auto !important;
+    }
+</style>

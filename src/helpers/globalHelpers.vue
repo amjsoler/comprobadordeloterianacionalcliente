@@ -18,7 +18,7 @@ export default {
   mostrarToast(mensaje, tipo){
     console.log("globalHelpers.vue: Entrando al mostrarToast con params: {mensaje: " + mensaje + ", tipo: " + tipo + "}");
 
-    store.dispatch("almacenarMensajeToast", {mensaje, tipo});
+    store.dispatch("almacenarMensajeToastAction", {mensaje, tipo});
 
     //Muestro el toast
     Toast.getOrCreateInstance(document.getElementById("toastApp")).show();

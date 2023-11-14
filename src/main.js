@@ -48,6 +48,8 @@ axios.interceptors.response.use(response => {
         store.dispatch("vaciarValidacionesAction");
     }
 
+    store.dispatch("procesandoAction", false);
+
     return response;
 }, error => {
     if(error.response.status === 401){
@@ -84,6 +86,8 @@ axios.interceptors.response.use(response => {
     }
 
     //TODO: Manejar también los 404
+
+    store.dispatch("procesandoAction", false);
 
     return Promise.reject(error)
 });

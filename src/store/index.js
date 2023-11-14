@@ -11,8 +11,12 @@ export default createStore({
     errors: [],
     message: "",
     toastApp: {},
+    procesando: false
   },
   mutations: {
+    procesandoMutation(state, estado){
+        state.procesando = estado;
+    },
     almacenarMensajeToastMutation(state, {mensaje, tipo}){
       console.log("storage/index.js: mutation - almacenando mensaje para el toast");
       state.toastApp.mensaje = mensaje;
@@ -39,10 +43,13 @@ export default createStore({
     },
   },
   actions: {
+    procesandoAction({commit}, estado){
+        commit("procesandoMutation", estado);
+    },
     almacenarMensajeToastAction({commit}, {mensaje, tipo}) {
       console.log("storage/index.js: action - almacenar mensaje del toast");
 
-      commit("almacenarMensajeToast", {mensaje, tipo});
+      commit("almacenarMensajeToastMutation", {mensaje, tipo});
     },
     almacenarTokenSesionAction({commit}, newTokenSesion) {
       console.log("storage/index.js: action - almacenando token de sesión en el localstorage");
