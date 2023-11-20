@@ -1,6 +1,8 @@
 <template>
   <form-group>
-    <form-label>¿A qué sorteo pertenece tu número?</form-label>
+    <form-label>
+      <slot />
+    </form-label>
     <select class="form-control"
             :value="modelValue"
             @change="$emit('update:modelValue', $event.target.value)">
@@ -13,6 +15,7 @@
     </select>
   </form-group>
 </template>
+
 <script>
 import axios from "axios";
 import FormGroup from "@/components/generales/formularios/FormGroup.vue";
@@ -29,15 +32,18 @@ export default {
       sorteosDisponibles: []
     }
   },
+
   mounted() {
     console.log("SorteosDisponibles.vue: Entrando al componente de sorteos disponibles");
 
     axios.get(process.env.VUE_APP_API_BASE_URL+"ultimos-resultados")
         .then(response => {
+          console.log("Response OK");
+
           this.sorteosDisponibles = response.data;
         })
-        .catch(error => {
-          console.log(error);
+        .catch(() => {
+          console.log("Response KO");
         })
   }
 }

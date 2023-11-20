@@ -34,6 +34,21 @@ export default {
         });
 
     console.log("globalHelpers.vue: Saliendo del logError");
+  },
+
+  esDesconocidaLaRespuestaDelServidor(statusCode) {
+    console.log("Entrando a globalHelpers.esDesconocidaLaRespuestaDelServidor");
+
+    var esDesconocido = false;
+    if(
+        statusCode != 422
+    ){
+      esDesconocido = true;
+    }
+
+    console.log("Saliendo de globalHelpers.esDesconocidaLaRespuestaDelServidor");
+
+    return esDesconocido;
   }
 }
 </script>

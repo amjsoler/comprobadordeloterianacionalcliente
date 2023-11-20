@@ -1,19 +1,9 @@
 <template>
-  <div>
+  <contenedor-centrado>
     <form>
       <form-group>
         <form-label>Fecha de sorteo</form-label>
-        <div class="row d-flex align-items-center">
-          <div class="col-6">
-            <select class="form-select" v-model="nuevoDecimo.sorteo" @change="cambiarImagenDecimo">
-              <option selected>Seleccione un sorteo</option>
-              <option v-for="sorteo in sorteosDisponibles" v-bind:key="sorteo.id" :value="sorteo.id">({{ formatDate(sorteo.fecha) }}) {{ sorteo.nombre }}</option>
-            </select>
-          </div>
-          <div class="col-6">
-            <img id="imagen-previsualizacion-decimo" class="img-fluid" src="/decimo_estandar.jpeg" @error="imagenDefecto">
-          </div>
-        </div>
+        <sorteos-disponibles-con-preview v-model="nuevoDecimo.sorteo"></sorteos-disponibles-con-preview>
         <input-error v-if="errors.sorteo">{{ errors.sorteo[0]}}</input-error>
       </form-group>
       <form-group>
@@ -21,29 +11,23 @@
         <input-control type="number" v-model="nuevoDecimo.numero" />
         <input-error v-if="errors.numero">{{ errors.numero[0]}}</input-error>
       </form-group>
-      <!--<form-group>
-        <form-label>Reintegro</form-label>
-        <input-control type="number" v-model="nuevoDecimo.reintegro" />
-        <input-error v-if="errors.reintegro">{{ errors.reintegro[0]}}</input-error>
-      </form-group>-->
+      <div class="row">
+        <form-group class="col-6">
+          <form-label>Serie</form-label>
+          <input-control type="number" v-model="nuevoDecimo.serie" />
+          <input-error v-if="errors.serie">{{ errors.serie[0]}}</input-error>
+        </form-group>
+        <form-group class="col-6">
+          <form-label>Fracción</form-label>
+          <input-control type="number" v-model="nuevoDecimo.fraccion" />
+          <input-error v-if="errors.fraccion">{{ errors.fraccion[0]}}</input-error>
+        </form-group>
+      </div>
       <form-group>
-        <form-label>Serie</form-label>
-        <input-control type="number" v-model="nuevoDecimo.serie" />
-        <input-error v-if="errors.serie">{{ errors.serie[0]}}</input-error>
+        <button-submit @submit-click="crearDecimo">Guardar décimo</button-submit>
       </form-group>
-      <form-group>
-        <form-label>Fracción</form-label>
-        <input-control type="number" v-model="nuevoDecimo.fraccion" />
-        <input-error v-if="errors.fraccion">{{ errors.fraccion[0]}}</input-error>
-      </form-group>
-      <!--<form-group>
-        <form-label>¿Cuántos décimos tienes con este número?</form-label>
-        <input-control type="number" v-model="nuevoDecimo.cantidad" />
-        <input-error v-if="errors.cantidad">{{ errors.cantidad[0]}}</input-error>
-      </form-group>-->
-      <button-submit @submit-click="crearDecimo">Guardar décimo</button-submit>
     </form>
-  </div>
+  </contenedor-centrado>
 </template>
 
 <script>
@@ -55,12 +39,15 @@ import InputError from "@/components/generales/formularios/InputError.vue";
 import {mapActions, mapState} from "vuex";
 import globalHelpers from "@/helpers/globalHelpers.vue";
 import router from "@/router";
-import dayjs from 'dayjs';
 import ButtonSubmit from "@/components/generales/formularios/ButtonSubmit.vue";
+import ContenedorCentrado from "@/components/generales/layout/ContenedorCentrado.vue";
+import SorteosDisponiblesConPreview from "@/components/sorteos/SorteosDisponiblesConPreview.vue";
 
 export default {
   name: "CrearDecimo",
-  components: {ButtonSubmit, InputError, InputControl, FormGroup, FormLabel},
+  components: {
+    SorteosDisponiblesConPreview,
+    ContenedorCentrado, ButtonSubmit, InputError, InputControl, FormGroup, FormLabel},
   data(){
     return {
       nuevoDecimo: {
@@ -71,8 +58,6 @@ export default {
         fraccion: "",
         cantidad: ""
       },
-
-      sorteosDisponibles: []
     }
   },
   computed: {
@@ -81,26 +66,12 @@ export default {
   mounted() {
     console.log("CrearDecimo.vue: Entrando al CrearDecimo. Consulto los sorteos disponibles");
 
-    axios.get(process.env.VUE_APP_API_BASE_URL+"sorteos-disponibles")
-        .then(response => {
-          this.sorteosDisponibles = response.data
-        })
-        .catch(error => {
-          console.log(error);
-        })
+
   },
   methods: {
     ...mapActions({
       nuevoDecimoAction: "decimos/nuevoDecimoAction",
     }),
-
-    imagenDefecto(event){
-      event.target.src = "/decimo_estandar.jpeg";
-    },
-
-    cambiarImagenDecimo(){
-      document.getElementById("imagen-previsualizacion-decimo").src = process.env.VUE_APP_BASE_URL+"storage/sorteos/"+this.nuevoDecimo.sorteo+".jpeg";
-    },
 
     crearDecimo(){
       console.log("CrearDecimo.vue: Entrando al crearDecimo. Realizando petición post...");
@@ -128,12 +99,6 @@ export default {
             console.log("MisDecimos.vue: Response KO");
           })
     },
-
-    formatDate(dateString) {
-      const date = dayjs(dateString);
-      // Then specify how you want your dates to be formatted
-      return date.format('DD/MM/YYYY');
-    }
   }
 }
 </script>

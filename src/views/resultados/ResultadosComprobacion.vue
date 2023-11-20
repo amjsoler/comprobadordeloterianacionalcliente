@@ -1,13 +1,13 @@
 <template>
-  <div-centro-pantalla v-if="premioObtenido.premioTotal > 0" class="text-center">
+  <div v-if="premioObtenido.premioTotal > 0" class="text-center">
     ¡Enhorabuena! Este número tiene un premio de {{ premioObtenido.premioTotal }}€
-  </div-centro-pantalla>
-  <div-centro-pantalla v-else-if="Object.keys(decimoAComprobar).length == 0">
+  </div>
+  <div v-else-if="Object.keys(decimoAComprobar).length == 0">
     Los resultados todavía no están disponibles
-  </div-centro-pantalla>
-  <div-centro-pantalla v-else class="text-center">
+  </div>
+  <div v-else class="text-center">
     ¡VAYA! Parece que el número {{ decimoAComprobar.numero }} no ha obtenido ningún premio en este sorteo
-  </div-centro-pantalla>
+  </div>
 
   <div>
     <div class="fixed-bottom mb-75 text-center">
@@ -20,10 +20,8 @@
 </template>
 <script>
 import {mapState} from "vuex";
-import DivCentroPantalla from "@/components/generales/layout/DivCentroPantalla.vue";
 
 export default {
-  components: {DivCentroPantalla},
   computed: {
     ...mapState(
         "resultados", ["decimoAComprobar", "premioObtenido"]

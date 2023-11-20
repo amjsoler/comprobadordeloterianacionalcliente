@@ -15,6 +15,7 @@ import EditarDecimo from "@/views/decimos/EditarDecimo.vue";
 import ResultadosComprobacion from "@/views/resultados/ResultadosComprobacion.vue";
 import ForbiddenResource from "@/views/ForbiddenResource.vue";
 import RecuperarCuenta from "@/views/usuario/RecuperarCuenta.vue";
+import VerificarCuenta from "@/views/usuario/VerificarCuenta.vue";
 
 const routes = [
     //Rutas de USUARIO
@@ -38,6 +39,11 @@ const routes = [
     path: '/recuperar-cuenta',
     name: 'RecuperarCuenta',
     component: RecuperarCuenta
+  },
+  {
+    path: '/verificar-cuenta',
+    name: 'VerificarCuenta',
+    component: VerificarCuenta
   },
   {
     path: '/cuenta-usuario',

@@ -1,10 +1,10 @@
 <template>
     <div :class="{'h-100': !Object.keys(this.dameDecimosAgrupadosPorSorteo).length}">
-        <div-centro-pantalla v-if="!Object.keys(this.dameDecimosAgrupadosPorSorteo).length">
+        <div v-if="!Object.keys(this.dameDecimosAgrupadosPorSorteo).length">
           <p class="text-center">Todavía no has añadido ningún décimo</p>
           <br>
           <p class="text-center">Añade tus décimos y te avisaremos con los resultados cuando se celebre el sorteo</p>
-        </div-centro-pantalla>
+        </div>
         <div v-for="(decimos, key) in dameDecimosAgrupadosPorSorteo"
             v-bind:key="key">
           <div class="row">
@@ -74,16 +74,16 @@
             Nuevo décimo
           </router-link>
         </div>
+        <modal-general titulo="¡Atención!" id="modal-eliminacion-decimo">
+          <p>Estás a punto de eliminar el décimo ¿Estás seguro de querer continuar?</p>
+          <div class="row">
+            <button type="button" class="btn btn-primary col-7 offset-1" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+            <button class="btn btn-danger col-2 offset-1" @click.prevent="eliminarDecimo()">
+              <span class="material-symbols-outlined align-bottom fw-bold">delete</span>
+            </button>
+          </div>
+        </modal-general>
     </div>
-  <modal-general titulo="¡Atención!" id="modal-eliminacion-decimo">
-    <p>Estás a punto de eliminar el décimo ¿Estás seguro de querer continuar?</p>
-    <div class="row">
-      <button type="button" class="btn btn-primary col-7 offset-1" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-      <button class="btn btn-danger col-2 offset-1" @click.prevent="eliminarDecimo()">
-        <span class="material-symbols-outlined align-bottom fw-bold">delete</span>
-      </button>
-    </div>
-  </modal-general>
 </template>
 
 <style scoped>
@@ -138,7 +138,6 @@
 <script>
 import axios from "axios";
 import {mapActions, mapGetters} from "vuex";
-import DivCentroPantalla from "@/components/generales/layout/DivCentroPantalla.vue";
 import ModalGeneral from "@/components/generales/modales/ModalGeneral.vue";
 import globalHelpers from "@/helpers/globalHelpers.vue";
 import router from "@/router";
@@ -151,7 +150,7 @@ export default {
       decimoAManipular: null,
     }
   },
-  components: {ModalGeneral, DivCentroPantalla},
+  components: {ModalGeneral},
   computed:{
     ...mapGetters({
       dameDecimosAgrupadosPorSorteo: "decimos/dameDecimosAgrupadosPorSorteo"

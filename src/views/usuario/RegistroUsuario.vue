@@ -1,5 +1,5 @@
 <template>
-  <contenedor-centrado>
+  <contenedor-centrado class="justify-content-center">
     <form>
       <form-group>
         <form-label>Nombre</form-label>
@@ -22,7 +22,9 @@
         <input-error v-if="errors.password_confirmation">{{ errors.password_confirmation[0] }}</input-error>
       </form-group>
 
-      <button-submit @submit-click="enviarFormularioRegistro">Registrarse</button-submit>
+      <p>
+        <button-submit @submit-click="enviarFormularioRegistro">Registrarse</button-submit>
+      </p>
     </form>
   </contenedor-centrado>
 </template>
@@ -63,46 +65,33 @@ export default {
   },
   methods: {
     enviarFormularioRegistro(){
-      try{
-        console.log("RegistrarUsuario.vue: Mandando petición al registro del servidor");
-        axios.post(process.env.VUE_APP_API_BASE_URL+"registrarse",{
-          "name":this.name,
-          "email":this.email,
-          "password":this.password,
-          "password_confirmation":this.password_confirmation
-        })
-            .then(response => {
-              console.log("RegistrarUsuario.vue: Respuesta OK a la peticiión de registro");
+      console.log("RegistrarUsuario.vue: Mandando petición al registro del servidor");
 
-              //Almaceno el token de sesión
-              store.dispatch("almacenarTokenSesionAction", response.data.access_token);
+      axios.post(process.env.VUE_APP_API_BASE_URL+"registrarse",{
+        "name":this.name,
+        "email":this.email,
+        "password":this.password,
+        "password_confirmation":this.password_confirmation
+      })
+          .then(response => {
+            console.log("RegistrarUsuario.vue: Respuesta OK a la petición de registro");
 
-              //también almaceno los décimos del usuario para tenerlos sincronizados
-              store.dispatch("almacenarMisDecimos",response.data.misdecimos);
+            //Almaceno el token de sesión
+            store.dispatch("almacenarTokenSesionAction", response.data.access_token);
 
-              //Muestro un toast de bienvenida
-              GlobalHelpers.mostrarToast('Te has registrado correctamente. ¡Bienvenido, ' + this.name + "!", "success")
+            //Muestro un toast de bienvenida
+            GlobalHelpers.mostrarToast('Te has registrado correctamente. ¡Bienvenido, ' + this.name + "!", "success")
 
-              //Una vez tengo el token guardado, redirijo adonde quería ir
-              if(router.currentRoute.value.redirectedFrom){
-                router.push(router.currentRoute.value.redirectedFrom);
-              }else{
-                router.push({name:"CuentaUsuario"});
-              }
-            })
-            .catch(error => {
-              console.log("RegistrarUsuario.vue: Resputa KO a la petición de registro");
-              //Si es un error de validación...
-              if(error.response && error.response.data &&
-                  error.response.data.errors &&
-                  error.response.data.message){
-                store.dispatch("almacenarArrayErrores", error.response.data.errors);
-                store.dispatch("almacenarMensaje", error.response.data.message);
-              }
-            })
-      }catch(error){
-        console.log("RegistrarUsuario.vue: Error al intentar dar de alta los datos del usuario");
-      }
+            //Una vez tengo el token guardado, redirijo adonde quería ir si se ha guardado la ruta
+            if(router.currentRoute.value.redirectedFrom){
+              router.push(router.currentRoute.value.redirectedFrom);
+            }else{
+              router.push({name:"MisDecimos"});
+            }
+          })
+          .catch(() => {
+            console.log("RegistrarUsuario.vue: Resputa KO a la petición de registro");
+          })
     }
   }
 }

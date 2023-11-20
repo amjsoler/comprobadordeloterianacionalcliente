@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 import router from "@/router";
 import decimos from "@/store/decimos";
 import resultados from "@/store/resultados";
+import GlobalHelpers from "@/helpers/globalHelpers.vue";
 
 export default createStore({
   strict: true,
@@ -66,6 +67,8 @@ export default createStore({
 
       //Llamada al mutator cerrar sesión
       commit("cerrarSesionMutation");
+
+      GlobalHelpers.mostrarToast("¡Adiós! Esperamos volver a verte pronto :)")
 
       //Finalmente redirijo a iniciar sesión
       router.push({name:"IniciarSesion"});

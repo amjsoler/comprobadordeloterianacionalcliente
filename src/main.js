@@ -84,6 +84,12 @@ axios.interceptors.response.use(response => {
 
         router.push({name:"VerificarCuenta"});
     }
+    else {
+        //Si no conozco el status del error que se devuelve, lo logueo en servidor y muestro un toast
+        GlobalHelpers.logError("Error con status desconocido", error);
+
+        GlobalHelpers.mostrarToast("Ha ocurrido un error inesperado. Por favor, intentalo de nuevo más tarde");
+    }
 
     //TODO: Manejar también los 404
 

@@ -1,10 +1,5 @@
 <template>
     <nav class="nav navbar fixed-bottom bg-white border-top h-15 d-flex flex-row">
-        <!--<router-link :to="{name: 'BuscarDecimo'}"
-                     class="d-block w-100 text-center text-decoration-none text-secondary">
-            <span class="material-symbols-outlined w-100 icono">search</span>
-            <span class="fuente-menu d-block mt-2 lh-1">Buscar</span>
-        </router-link>-->
         <router-link :to="{name: 'MisDecimos'}"
                      class="d-block w-100 text-center text-decoration-none text-secondary">
             <span class="material-symbols-outlined w-100 icono">local_activity</span>

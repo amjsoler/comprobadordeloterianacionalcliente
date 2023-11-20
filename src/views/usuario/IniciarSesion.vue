@@ -1,5 +1,5 @@
 <template>
-  <contenedor-centrado>
+  <contenedor-centrado class="justify-content-center">
     <div class="w-50">
       <img src="/login.png" class="img-fluid">
     </div>
@@ -94,14 +94,12 @@ export default {
           .catch(error => {
             console.log("IniciarSesion.vue: Error en la petición de inicio de sesión");
             //Si no es un error de validación preguntamos si la contraseña es correcta puesto que esta no se valida en el request de servidor...
-            if (error.response && error.response.status != 422) {
-              if(error.response.status == 401){
+            if (error && error.response && error.response.status == 401) {
                 console.log("IniciarSesion.vue: Error generico");
 
                 var errArr = {"password": ["¿La contraseña es correcta?"]};
                 store.dispatch("almacenarArrayErroresAction", errArr);
                 store.dispatch("almacenarMensajeAction", "¿La contraseña es correcta?");
-              }
             }
           });
     }
