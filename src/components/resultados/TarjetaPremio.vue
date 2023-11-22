@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <div class="row justify-content-center">
+  <div class="mb-4">
+    <p class="fs-3">
       {{ nombre }}
-    </div>
+    </p>
     <div class="row align-items-center">
       <div class="col-6">
         <slot></slot>
@@ -11,6 +11,7 @@
         {{premio}}€
       </div>
     </div>
+    <hr>
   </div>
 </template>
 <script>

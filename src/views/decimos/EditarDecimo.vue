@@ -71,8 +71,8 @@ export default {
     mounted() {
         console.log("EditarDecimo.vue: Entrando a la vista de edición de décimo");
 
-        //leo y me hago un duplicado local del décimo que hay en el global state
-        this.decimoAEditar = this.dameDecimoDadoId(this.decimoID);
+        //leo y me hago un duplicado local del décimo que hay en el global state porque solo quiero que se actualice si consigo actualizarlo en el server
+        this.decimoAEditar = JSON.parse(JSON.stringify(this.dameDecimoDadoId(this.decimoID)));
     },
     methods: {
         ...mapActions({
@@ -102,9 +102,8 @@ export default {
 
                     router.push({name: "MisDecimos"});
                 })
-                .catch(error => {
+                .catch(() => {
                     console.log("EditarDecimo.vue: Response KO");
-                    console.log(error);
                 })
         }
     }

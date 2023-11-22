@@ -1,5 +1,5 @@
 <template>
-    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+    <div :class="{naranja: naranja}" class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
 </template>
 
 <style scoped>
@@ -21,6 +21,11 @@
     background: #fff;
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
+
+.lds-ellipsis.naranja div{
+  background-color: rgba(253,137,86, 0.8) !important;
+}
+
 .lds-ellipsis div:nth-child(1) {
     left: 8px;
     animation: lds-ellipsis1 0.6s infinite;
@@ -66,5 +71,7 @@
 <script>
 export default {
     name: "SpinnerButton",
+
+  props: ["naranja"]
 }
 </script>

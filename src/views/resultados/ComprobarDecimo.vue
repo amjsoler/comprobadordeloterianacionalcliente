@@ -1,24 +1,27 @@
 <template>
-  <div>
+  <contenedor-centrado class="justify-content-center">
     <form>
       <form-group>
-        <form-label>Número apostado</form-label>
+        <form-label>Número a comprobar</form-label>
         <input-control type="number" v-model="numero"></input-control>
         <input-error v-if="errors.numero">{{errors.numero[0]}}</input-error>
       </form-group>
       <form-group>
-        <sorteos-disponibles v-model="sorteo"></sorteos-disponibles>
+        <ultimos-sorteos-con-premio-con-preview v-model="sorteo"/>
+        <input-error v-if="errors.sorteo">{{errors.sorteo[0]}}</input-error>
       </form-group>
-      <button-submit @submit-click="comprobarDecimo">Comprobar</button-submit>
+      <form-group>
+        <button-submit @submit-click="comprobarDecimo">Comprobar</button-submit>
+      </form-group>
     </form>
 
-    <div class="fixed-bottom mb-75 d-flex justify-content-center">
+    <div class="fixed-bottom mb-75 ">
       <router-link :to="{name:'ComprobarDecimoQR'}"
-                   class="btn btn-lg btn-primary">
-        <span class="material-symbols-outlined align-middle">qr_code_scanner</span>
+                   class="d-inline-flex btn btn-lg btn-primary">
+        <span class="material-symbols-outlined fs-1">qr_code_scanner</span>
       </router-link>
     </div>
-  </div>
+  </contenedor-centrado>
 </template>
 
 <script>
@@ -28,13 +31,16 @@ import InputControl from "@/components/generales/formularios/InputControl.vue";
 import InputError from "@/components/generales/formularios/InputError.vue";
 import {mapActions, mapState} from "vuex";
 import axios from "axios";
-import SorteosDisponibles from "@/components/sorteos/SorteosDisponibles.vue";
 import ButtonSubmit from "@/components/generales/formularios/ButtonSubmit.vue";
 import router from "@/router";
+import ContenedorCentrado from "@/components/generales/layout/ContenedorCentrado.vue";
+import UltimosSorteosConPremioConPreview from "@/components/resultados/UltimosSorteosConPremioConPreview.vue";
 
 export default {
   name: "ComprobarDecimo",
-  components: {ButtonSubmit, SorteosDisponibles, InputError, InputControl, FormLabel, FormGroup},
+  components: {
+    UltimosSorteosConPremioConPreview,
+    ContenedorCentrado, ButtonSubmit, InputError, InputControl, FormLabel, FormGroup},
   data() {
     return {
       numero: "",
@@ -58,6 +64,7 @@ export default {
       almacenarPremioObtenido: "resultados/almacenarPremioObtenidoAction"
     }),
     comprobarDecimo() {
+      console.log("comprobarDecimo: Mandando petición...");
       axios.post(process.env.VUE_APP_API_BASE_URL+"comprobar-decimo",
           {
             numero: this.numero,
@@ -67,7 +74,7 @@ export default {
             sorteo: this.sorteo
           })
           .then(response => {
-            console.log(response);
+            console.log("Response OK");
 
             //Guardo el premio y el número en el state
             const decimoAComprobar = {
@@ -90,8 +97,7 @@ export default {
             //Después redirijo a la vista para pintar el premio
             router.push({name: "ResultadosComprobacion"});
           })
-          .catch(error => {
-            console.log(error);
+          .catch(() => {
           })
     }
   }

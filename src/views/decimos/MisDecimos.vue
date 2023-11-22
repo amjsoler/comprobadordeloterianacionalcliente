@@ -1,27 +1,24 @@
 <template>
-    <div :class="{'h-100': !Object.keys(this.dameDecimosAgrupadosPorSorteo).length}">
-        <div v-if="!Object.keys(this.dameDecimosAgrupadosPorSorteo).length">
-          <p class="text-center">Todavía no has añadido ningún décimo</p>
+    <contenedor-centrado class="pb-5">
+        <div v-if="!Object.keys(this.dameDecimosAgrupadosPorSorteo).length"
+              class="h-100 d-flex flex-column justify-content-center">
+          <p class="text-center fs-4 fw-bold">Todavía no has añadido ningún décimo</p>
           <br>
-          <p class="text-center">Añade tus décimos y te avisaremos con los resultados cuando se celebre el sorteo</p>
+          <p class="text-center fs-5">Añade tus décimos y te avisaremos con los resultados cuando se celebre el sorteo</p>
         </div>
-        <div v-for="(decimos, key) in dameDecimosAgrupadosPorSorteo"
-            v-bind:key="key">
-          <div class="row">
+        <div class="w-100" v-for="(decimos, key) in dameDecimosAgrupadosPorSorteo" v-bind:key="key">
+          <div class="row mt-4 mb-2">
             <div class="text-center"
                 :class="{'col-10': dimeSiSorteoConResultadosDadoArrayDeDecimos(decimos)}">
-              <h3 v-if="decimos[0].sorteo_perteneciente.numero_sorteo"
-                  class="">
-                Décimos del sorteo {{ decimos[0].sorteo_perteneciente.numero_sorteo }}
-              </h3>
-              <p>
-                {{ decimos[0].sorteo_perteneciente.nombre }} ({{ decimos[0].sorteo_perteneciente.fecha }})
-              </p>
+              <div class="fs-5">
+                {{ decimos[0].sorteo_perteneciente.nombre }} ({{ dameFechaFormateada(decimos[0].sorteo_perteneciente.fecha) }})
+              </div>
             </div>
             <div v-if="dimeSiSorteoConResultadosDadoArrayDeDecimos(decimos)"
-                 class="col-2 d-flex align-items-center text-danger"
+                 class="col-2 d-flex align-items-center text-danger position-relative justify-content-center"
                   @click="archivarDecimos(decimos[0].sorteo)">
-              <span class="material-symbols-outlined">archive</span>
+              <spinner-button v-if="procesando[decimos[0].sorteo]" naranja="true"></spinner-button>
+              <span v-else class="material-symbols-outlined">archive</span>
             </div>
           </div>
           <div :id="'tarjeta-decimo-'+decimo.id"
@@ -29,40 +26,38 @@
                v-bind:key="decimo.id"
                class="card mb-3 text-decoration-none cursor-pointer tarjeta-decimo"
               @click="mostrarPanelOpciones">
-            <div class="d-inline-flex align-items-center justify-content-around fondo-decimo-ajustes panel-opciones">
-              <div class="position-absolute top-0 end-0">
-                <span @click.self.stop="cerrarPanelOpciones" class="material-symbols-outlined dimgrey fw-bold fs-7">close</span>
+            <!-- Panel de opciones del décimo para editar y borrar dicho décimo -->
+            <div class="d-flex align-items-center justify-content-around fondo-decimo-ajustes panel-opciones">
+              <div class="position-absolute top-0 end-0 mt-2 me-2">
+                <span @click.self.stop="cerrarPanelOpciones" class="material-symbols-outlined dimgrey fw-bold fs-2">close</span>
               </div>
               <div>
-                <router-link :to="{name: 'EditarDecimo', params: {id:decimo.id}}">
-                  <span class="material-symbols-outlined align-bottom text-warning fs-10 fw-bold">edit</span>
+                <router-link class="btn btn-primary" :to="{name: 'EditarDecimo', params: {id:decimo.id}}">
+                  <span class="material-symbols-outlined align-bottom fs-10">edit</span>
                 </router-link>
               </div>
-              <div @click.prevent="guardarDecimoABorrar(decimo.id)" data-bs-toggle="modal" data-bs-target="#modal-eliminacion-decimo">
-                <span class="material-symbols-outlined align-bottom text-danger fs-10 fw-bold">delete</span>
+              <div @click.prevent="guardarDecimoABorrar(decimo.id)" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-eliminacion-decimo">
+                <span class="material-symbols-outlined align-bottom fs-10">delete</span>
               </div>
             </div>
-            <div class="g-0 d-flex">
+            <!-- Tarjeta del décimo -->
+            <div class="d-flex">
               <div class="col-8">
-
                 <img :src="dameUrlImagenDecimoDadoIdSorteo(decimo.sorteo)" @error="cargarDecimoEstandar" class="img-fluid rounded-start" alt="imagen del décimo">
               </div>
-              <div class="col-4 flex-fill d-flex align-items-center text-center">
-                <div class="card-body">
-                  <h5 class="card-title">Nº: {{ decimo.numero}}</h5>
-                  <p class="card-text">
-                    <span v-if="decimo.serie">S: {{ decimo.serie }}</span>
-                    <span v-else>S: --</span>,
-                    <span v-if="decimo.fraccion">F: {{ decimo.fraccion }}</span>
-                    <span v-else>F: --</span>
-                  </p>
-                </div>
+              <div class="col-4 d-flex flex-column justify-content-center">
+                <h5 class="fs-2">{{ decimo.numero}}</h5>
+                <p class="card-text fs-4">
+                  <span v-if="decimo.serie">S: {{ decimo.serie }}</span>
+                  <span v-else>S: --</span>,
+                  <span v-if="decimo.fraccion">F: {{ decimo.fraccion }}</span>
+                  <span v-else>F: --</span>
+                </p>
               </div>
             </div>
             <div class="text-center">
-              <!--<p v-if="!decimo.premio" class="small">El sorteo todavía no se ha celebrado</p>-->
-              <p v-if="decimo.premio === 0" class="small text-danger">Este décimo no está premiado</p>
-              <p v-else-if="decimo.premio > 0" class="small text-success">Este décimo tiene un premio de {{decimo.premio}}€ ¡Enhorabuena!</p>
+              <p v-if="decimo.premio === 0" class="small text-danger mt-3">Este décimo no está premiado</p>
+              <p v-else-if="decimo.premio > 0" class="small text-success mt-3">Este décimo tiene un premio de {{decimo.premio}}€ ¡Enhorabuena!</p>
             </div>
           </div>
         </div>
@@ -83,7 +78,7 @@
             </button>
           </div>
         </modal-general>
-    </div>
+    </contenedor-centrado>
 </template>
 
 <style scoped>
@@ -100,14 +95,18 @@
     bottom: 0px;
   }
 
+  .lds-ellipsis {
+    position: relative !important;
+    right: -5px !important;
+  }
   .panel-opciones-oculto {
     visibility: visible;
-    animation: FadeOutFordward 1s ease 0s 1 normal forwards;
+    animation: FadeOutFordward 0.25s ease 0s 1 normal forwards;
   }
 
   .panel-opciones-visible {
     visibility: visible;
-    animation: fadeInFromLeft 1s ease 0s 1 normal forwards;
+    animation: fadeInFromLeft 0.5s ease 0s 1 normal forwards;
   }
 
   @keyframes FadeOutFordward {
@@ -139,18 +138,21 @@
 import axios from "axios";
 import {mapActions, mapGetters} from "vuex";
 import ModalGeneral from "@/components/generales/modales/ModalGeneral.vue";
-import globalHelpers from "@/helpers/globalHelpers.vue";
-import router from "@/router";
-import GlobalHelpers from "@/helpers/globalHelpers.vue";
+import SpinnerButton from "@/components/generales/formularios/SpinnerButton.vue";
+import ContenedorCentrado from "@/components/generales/layout/ContenedorCentrado.vue";
+import globalHelpers from "../../helpers/globalHelpers.vue";
 
 export default {
   name: "MisDecimos",
+
   data () {
     return {
       decimoAManipular: null,
+      procesando: []
     }
   },
-  components: {ModalGeneral},
+  components: {ContenedorCentrado, SpinnerButton, ModalGeneral},
+
   computed:{
     ...mapGetters({
       dameDecimosAgrupadosPorSorteo: "decimos/dameDecimosAgrupadosPorSorteo"
@@ -161,7 +163,12 @@ export default {
     ...mapActions({
       almacenarListadoMisDecimosAction: "decimos/almacenarListadoMisDecimosAction",
       eliminarDecimoAction: "decimos/eliminarDecimoAction",
+      archivarDecimosAction: "decimos/archivarDecimosAction"
     }),
+
+    dameFechaFormateada(fecha) {
+      return globalHelpers.formatDate(fecha)
+    },
 
     mostrarPanelOpciones(event){
       event.target.closest(".tarjeta-decimo")
@@ -211,29 +218,29 @@ export default {
 
             globalHelpers.cerrarTodosLosModalesAbiertos();
 
-            router.push({name: 'MisDecimos'});
+            //router.push({name: 'MisDecimos'});
           })
-          .catch(error => {
+          .catch(() => {
             console.log("VerDecimo.vue: Response KO");
-            console.log(error);
           })
 
     },
 
     archivarDecimos(idSorteo){
+      this.procesando[idSorteo] = true;
+
         axios.get(process.env.VUE_APP_API_BASE_URL+"archivar-decimos/"+idSorteo)
-            .then(response => {
+            .then(() => {
 
-              //Ahora quito los décimos archivados del listado
-              response.data.map(decimoEliminado => {
-                console.log("EliminarDecimo: " + decimoEliminado.id);
-                  this.eliminarDecimoAction(decimoEliminado.id)
-              });
+              this.archivarDecimosAction(idSorteo)
 
-              GlobalHelpers.mostrarToast("Los décimos se han archivado correctamente", "success");
+              globalHelpers.mostrarToast("Los décimos se han archivado correctamente", "success");
+
+              this.procesando[idSorteo] = false;
             })
-            .catch(error => {
-              console.log(error);
+            .catch(() => {
+              console.log("Response KO");
+              this.procesando[idSorteo] = false;
             })
     },
   },
@@ -246,9 +253,8 @@ export default {
 
           this.almacenarListadoMisDecimosAction(response.data);
         })
-        .catch(error => {
+        .catch(() => {
           console.log("MisDecimos.vue: Respuesta KO. Error desconocido al leer los décimos");
-          console.log(error);
         });
   }
 }

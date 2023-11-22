@@ -1,106 +1,130 @@
 <template>
-  <div>
+  <contenedor-centrado>
     <form>
-      <select :value="selectedIndex" class="form-control" @change="cambiarSelectedIndex">
-        <option v-for="(sorteo, index) in ultimosResultados"
-                v-bind:key="sorteo.id"
-                :value="index">
-          {{ sorteo.nombre }} ({{ formatDate(sorteo.fecha) }})
-        </option>
-      </select>
+      <form-group>
+        <form-label>Seleccione el sorteo</form-label>
+        <select :value="selectedIndex" class="form-control" @change="cambiarSelectedIndex">
+          <option v-for="(sorteo, index) in ultimosResultados"
+                  v-bind:key="sorteo.id"
+                  :value="index">
+            {{ sorteo.nombre }} ({{ fechaFormateada(sorteo.fecha) }})
+          </option>
+        </select>
+      </form-group>
     </form>
 
-    <div>
+    <div class="mt-3 w-100">
         <tarjeta-premio v-for="(resultado, index) in ultimosResultados[selectedIndex].resultados"
                         v-bind:key="index"
                         :nombre="dameNombrePremio(resultado.nombre)"
                         :premio="resultado.premio">
           <div v-if="resultado.nombre=='especial'">
-            <div class="row justify-content-center fw-bold">
-              Nº: {{ resultado.numero.split("&")[0] }}
-            </div>
+            <p class="card fs-3 fw-bold mb-0">
+              {{ resultado.numero.split("&")[0] }}
+            </p>
             <div class="row">
-              <div class="col-6 text-center">
+              <div class="col-6 fs-4">
                 S: {{ resultado.numero.split("&")[1] }}
               </div>
-              <div class="col-6 text-center">
+              <div class="col-6 fs-4">
                 F: {{ resultado.numero.split("&")[2] }}
               </div>
             </div>
           </div>
           <div v-if="resultado.nombre=='primero'">
-            <div class="row justify-content-center fw-bold">
-              Nº: {{ resultado.numero.split("&")[0] }}
-            </div>
+            <p class="card fs-3 fw-bold mb-0">
+              {{ resultado.numero.split("&")[0] }}
+            </p>
           </div>
           <div v-if="resultado.nombre=='segundo'">
-            <div class="row justify-content-center fw-bold">
-              Nº: {{ resultado.numero.split("&")[0] }}
-            </div>
+            <p class="card fs-3 fw-bold mb-0">
+              {{ resultado.numero.split("&")[0] }}
+            </p>
           </div>
           <div v-if="resultado.nombre=='4cifras'">
-            <div class="fw-bold d-flex flex-row flex-wrap justify-content-center">
-              <div class="card" v-for="(numero, key) in resultado.numero.split('&')" v-bind:key="key">{{ numero }}</div>
+            <div class="d-flex flex-row flex-wrap justify-content-center">
+              <div class="card fw-bold ms-3 mb-3 pt-1 pb-1 ps-2 pe-2" v-for="(numero, key) in resultado.numero.split('&')" v-bind:key="key">{{ numero }}</div>
             </div>
           </div>
           <div v-if="resultado.nombre=='3cifras'">
-            <div class="fw-bold d-flex flex-row flex-wrap justify-content-center">
-              <div class="card" v-for="(numero, key) in resultado.numero.split('&')" v-bind:key="key">{{ numero }}</div>
+            <div class="d-flex flex-row flex-wrap justify-content-center">
+              <div class="card fs-085 fw-bold ms-3 mb-3 pt-1 pb-1 ps-2 pe-2" v-for="(numero, key) in resultado.numero.split('&')" v-bind:key="key">{{ numero }}</div>
             </div>
           </div>
           <div v-if="resultado.nombre=='2cifras'">
-            <div class="fw-bold d-flex flex-row flex-wrap justify-content-center">
-              <div class="card" v-for="(numero, key) in resultado.numero.split('&')" v-bind:key="key">{{ numero }}</div>
+            <div class="d-flex flex-row flex-wrap justify-content-center">
+              <div class="card fs-5 fw-bold pt-1 pb-1 ps-2 pe-2 me-2" v-for="(numero, key) in resultado.numero.split('&')" v-bind:key="key">{{ numero }}</div>
             </div>
           </div>
           <div v-if="resultado.nombre=='aproximacionesprimero'">
-            <div class="card" v-for="(numero, key) in resultado.numero.split('&')" v-bind:key="key">Nº: {{ numero }}</div>
+            <p class="card fs-4 fw-bold" v-for="(numero, key) in resultado.numero.split('&')" v-bind:key="key">{{ numero }}</p>
           </div>
           <div v-if="resultado.nombre=='aproximacionessegundo'">
-            <div class="card" v-for="(numero, key) in resultado.numero.split('&')" v-bind:key="key">Nº: {{ numero }}</div>
+            <p class="card fs-4 fw-bold" v-for="(numero, key) in resultado.numero.split('&')" v-bind:key="key">Nº: {{ numero }}</p>
           </div>
           <div v-if="resultado.nombre=='centenaprimero'">
-            <div class="card">Desde el Nº: {{ resultado.numero.split('&')[0] }}</div>
-            <div class="card">Hasta el Nº: {{ resultado.numero.split('&')[1] }}</div>
+            <div class="card pe-3 ps-3 pt-2 pb-2 mb-2">
+              <p class="mb-0">Desde el Nº: </p>
+              <p class="fs-4 fw-bold mb-0">{{ resultado.numero.split('&')[0] }}</p>
+            </div>
+            <div class="card pe-3 ps-3 pt-2 pb-2 mb-2">
+              <p class="mb-0">Hasta el Nº:</p>
+              <p class="fs-4 fw-bold mb-0">{{ resultado.numero.split('&')[1] }}</p>
+            </div>
           </div>
           <div v-if="resultado.nombre=='centenasegundo'">
-            <div class="card">Desde el Nº: {{ resultado.numero.split('&')[0] }}</div>
-            <div class="card">Hasta el Nº: {{ resultado.numero.split('&')[1] }}</div>
+            <div class="card pe-3 ps-3 pt-2 pb-2 mb-2">
+              <p class="mb-0">Desde el Nº: </p>
+              <p class="fs-4 fw-bold mb-0">{{ resultado.numero.split('&')[0] }}</p>
+            </div>
+            <div class="card pe-3 ps-3 pt-2 pb-2 mb-2">
+              <p class="mb-0">Hasta el Nº:</p>
+              <p class="fs-4 fw-bold mb-0">{{ resultado.numero.split('&')[1] }}</p>
+            </div>
           </div>
           <div v-if="resultado.nombre=='3terminacionesprimero'">
-            <div class="fw-bold d-flex flex-row flex-wrap justify-content-center">
-              <div class="card">XX{{ resultado.numero }}</div>
+            <div class="d-flex justify-content-center">
+              <p class="card d-inline-block mb-0 p-2 fs-4">
+                XX<span class="fw-bold d-inline-block">{{ resultado.numero }}</span>
+              </p>
             </div>
           </div>
           <div v-if="resultado.nombre=='2terminacionesprimero'">
-            <div class="fw-bold d-flex flex-row flex-wrap justify-content-center">
-              <div class="card">XXX{{ resultado.numero }}</div>
+            <div class="d-flex justify-content-center">
+              <p class="card d-inline-block mb-0 p-2 fs-4">
+                XXX<span class="fw-bold d-inline-block">{{ resultado.numero }}</span>
+              </p>
             </div>
           </div>
           <div v-if="resultado.nombre=='1terminacionprimero'">
-            <div class="fw-bold d-flex flex-row flex-wrap justify-content-center">
-              <div class="card">XXXX{{ resultado.numero }}</div>
+            <div class="d-flex justify-content-center">
+              <p class="card d-inline-block mb-0 p-2 fs-4">
+                XXXX<span class="fw-bold d-inline-block">{{ resultado.numero }}</span>
+              </p>
             </div>
           </div>
           <div v-if="resultado.nombre=='reintegros'">
-            <div class="fw-bold d-flex flex-row flex-wrap justify-content-center">
-              <div class="card" v-for="(numero, key) in resultado.numero.split('&')" v-bind:key="key">{{ numero }}</div>
+            <div class="d-flex flex-row justify-content-center">
+              <p class="card mb-0 ps-2 pe-2 pt-1 pb-1 me-3 fs-4 fw-bold" v-for="(numero, key) in resultado.numero.split('&')" v-bind:key="key">{{ numero }}</p>
             </div>
           </div>
         </tarjeta-premio>
       </div>
-    </div>
+    </contenedor-centrado>
 </template>
 
 <script>
 import axios from "axios";
 import {mapActions, mapState} from "vuex";
-import dayjs from "dayjs";
 import TarjetaPremio from "@/components/resultados/TarjetaPremio.vue";
+import ContenedorCentrado from "@/components/generales/layout/ContenedorCentrado.vue";
+import FormLabel from "@/components/generales/formularios/FormLabel.vue";
+import FormGroup from "@/components/generales/formularios/FormGroup.vue";
+import globalHelpers from "@/helpers/globalHelpers.vue";
 
 export default {
   name: "UltimosResultados",
-  components: {TarjetaPremio},
+  components: {FormGroup, FormLabel, ContenedorCentrado, TarjetaPremio},
 
   computed: {
     ...mapState(
@@ -108,18 +132,19 @@ export default {
     )
   },
   mounted() {
-    console.log("ÚltimosResultados.vue: Entrando al ultimos resultados. Peticionando resultados...");
+    console.log("ÚltimosResultados.vue: Entrando al últimos resultados. Peticionando resultados...");
 
     axios.get(process.env.VUE_APP_API_BASE_URL+"ultimos-resultados")
         .then(response => {
+          console.log("Response OK");
           this.almacenarUltimosResultadosAction(response.data);
 
           if(!this.selectedIndex){
             this.almacenarSelectedIndexAction(0);
           }
         })
-        .catch(error => {
-            console.log(error);
+        .catch(() => {
+          console.log("Response KO");
         })
   },
 
@@ -128,6 +153,10 @@ export default {
       almacenarUltimosResultadosAction: "resultados/almacenarUltimosResultadosAction",
       almacenarSelectedIndexAction: "resultados/almacenarSelectedIndexAction"
     }),
+
+    fechaFormateada(fecha) {
+        return globalHelpers.formatDate(fecha)
+    },
 
     cambiarSelectedIndex(event){
         this.almacenarSelectedIndexAction(event.target.value);
@@ -164,12 +193,6 @@ export default {
         case "reintegros":
           return "Reintegros";
       }
-    },
-
-    formatDate(dateString) {
-      const date = dayjs(dateString);
-      // Then specify how you want your dates to be formatted
-      return date.format('DD/MM/YYYY');
     },
   },
 }

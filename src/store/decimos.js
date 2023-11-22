@@ -6,12 +6,12 @@ export default {
     },
     mutations: {
         nuevoDecimoMutation(state, decimo){
-            console.log("storage/index.js: nuevoDecimoMutation - almacenando nuevo décimo en el global state");
+            console.log("storage/decimos.js: nuevoDecimoMutation - almacenando nuevo décimo en el global state");
 
             state.misDecimos.push(decimo);
         },
         editarDecimoMutation(state, decimo){
-            console.log("storage/index.js: mutation - modificando el décimo en el global state. Decimo: " + decimo);
+            console.log("storage/decimos.js: mutation - modificando el décimo en el global state. Decimo: " + decimo);
 
             //Buscamos el índice que ocupa el decimo a modificar
             const index = state.misDecimos.findIndex(item => item.id === decimo.id);
@@ -20,7 +20,7 @@ export default {
             state.misDecimos[index] = decimo;
         },
         eliminarDecimoMutation(state, decimoID) {
-            console.log("storage/index.js: mutation - eliminar décimo del global state "+ decimoID);
+            console.log("storage/decimos.js: mutation - eliminar décimo del global state "+ decimoID);
 
             const index = state.misDecimos.findIndex(item => item.id === decimoID);
 
@@ -28,10 +28,20 @@ export default {
         },
 
         almacenarListadoMisDecimosMutation(state, misDecimos) {
-            console.log("storage/index.js: mutation - almacenando el listado de mis decimos en el global state");
+            console.log("storage/decimos.js: mutation - almacenando el listado de mis decimos en el global state");
 
             state.misDecimos = misDecimos;
         },
+
+        archivarDecimosMutation(state, idSorteo) {
+            console.log("storage/decimos.js: mutation - archivo los décimos del sorteo" + idSorteo);
+
+            const arrayElementosABorrar = state.misDecimos.filter(item => item.sorteo == idSorteo);
+
+            arrayElementosABorrar.forEach(function(item) {
+                state.misDecimos.splice(state.misDecimos.indexOf(item) ,1);
+            });
+        }
     },
     actions: {
         nuevoDecimoAction({state, commit}, decimo){
@@ -49,19 +59,27 @@ export default {
             window.localStorage.setItem("misdecimos", JSON.stringify(state.misDecimos));
         },
         eliminarDecimoAction({state, commit}, decimoID){
-            console.log("storage/index.js: action - eliminar décimo");
+            console.log("storage/decimos.js: action - eliminar décimo");
 
             commit("eliminarDecimoMutation", decimoID);
 
             window.localStorage.setItem("misdecimos", JSON.stringify(state.misDecimos));
         },
         almacenarListadoMisDecimosAction({state, commit}, misDecimos) {
-            console.log("storage/index.js: action - almacenar mis decimos");
+            console.log("storage/decimos.js: action - almacenar mis decimos");
 
             commit("almacenarListadoMisDecimosMutation", misDecimos);
 
             window.localStorage.setItem("misdecimos", JSON.stringify(state.misDecimos));
         },
+
+        archivarDecimosAction({state, commit}, idSorteo){
+            console.log("storage/decimos.js: action - archivo decimos del sorteo " + idSorteo);
+
+            commit("archivarDecimosMutation", idSorteo);
+
+            window.localStorage.setItem("misdecimos", JSON.stringify(state.misDecimos));
+        }
     },
     getters: {
         dameDecimoDadoId: (state) => (decimoID) => {

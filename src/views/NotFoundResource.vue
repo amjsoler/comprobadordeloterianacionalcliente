@@ -1,14 +1,13 @@
 <template>
   <contenedor-centrado class="justify-content-center">
-     <p class="fs-2 text-danger ps-3 pe-3">No puedes acceder a este contenido</p>
+    <p class="text-center fs-4">No se ha encontrado el recurso</p>
   </contenedor-centrado>
 </template>
-
 <script>
 import ContenedorCentrado from "@/components/generales/layout/ContenedorCentrado.vue";
 
 export default {
-  name: "ForbiddenResource",
-  components: {ContenedorCentrado}
+  name: "NotFoundResource",
+  components: {ContenedorCentrado},
 }
 </script>

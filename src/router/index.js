@@ -16,9 +16,18 @@ import ResultadosComprobacion from "@/views/resultados/ResultadosComprobacion.vu
 import ForbiddenResource from "@/views/ForbiddenResource.vue";
 import RecuperarCuenta from "@/views/usuario/RecuperarCuenta.vue";
 import VerificarCuenta from "@/views/usuario/VerificarCuenta.vue";
+import NotFoundResource from "@/views/NotFoundResource.vue";
 
 const routes = [
     //Rutas de USUARIO
+  {
+    path: '/',
+    name: 'BasePath',
+    component: MisDecimos,
+    meta: {
+      requiresAuth: true
+    }
+  },
   {
     path: '/iniciar-sesion',
     name: 'IniciarSesion',
@@ -106,6 +115,11 @@ const routes = [
     path: '/forbidden-resource',
     name: 'ForbiddenResource',
     component: ForbiddenResource,
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFoundResource',
+    component: NotFoundResource,
   },
 ]
 

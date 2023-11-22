@@ -4,7 +4,7 @@
       <select id="select-sorteo" class="form-select" :value="modelValue"
               @change="selectChange">
         <option disabled value="">Seleccione un sorteo</option>
-        <option v-for="sorteo in sorteosDisponibles" v-bind:key="sorteo.id"
+        <option v-for="sorteo in ultimosSorteosConPremio" v-bind:key="sorteo.id"
                 :value="sorteo.id"
                 :id="'option-'+sorteo.id">
           ({{ formatearFecha(sorteo.fecha) }}) {{ sorteo.nombre }}
@@ -21,32 +21,30 @@ import axios from "axios";
 import globalHelpers from "@/helpers/globalHelpers.vue";
 
 export default {
-  name: "SorteosDisponiblesConPreview",
+  name: "UltimosSorteosConPremioConPreview",
 
-  props: ["modelValue", "masReciente"],
+  props: ["modelValue"],
 
   emits: ["update:modelValue"],
   data() {
     return  {
-      sorteosDisponibles: []
+      ultimosSorteosConPremio: []
     }
   },
 
   mounted() {
-    console.log("Entrando a componente SorteosDisponiblesConPreview.vue");
+    console.log("Entrando a componente UltimosSorteosConPremioConPreview.vue");
 
-    axios.get(process.env.VUE_APP_API_BASE_URL+"sorteos-disponibles")
+    axios.get(process.env.VUE_APP_API_BASE_URL+"ultimos-resultados")
         .then(response => {
-          this.sorteosDisponibles = response.data
+          this.ultimosSorteosConPremio = response.data
         })
         .catch(() => {
 
         })
         .finally(() =>{
-          if(this.masReciente){
-            document.getElementById("option-"+this.sorteosDisponibles[0].id).selected = true;
-            this.$emit('update:modelValue', this.sorteosDisponibles[0].id);
-          }
+          document.getElementById("option-"+this.ultimosSorteosConPremio[0].id).selected = true;
+          this.$emit('update:modelValue', this.ultimosSorteosConPremio[0].id);
 
           //Actualizamos la imagen del sorteo seleccionado
           this.cambiarImagenDecimo(this.modelValue);
@@ -75,6 +73,5 @@ export default {
       return globalHelpers.formatDate(fecha);
     }
   }
-
 }
 </script>

@@ -9,7 +9,6 @@ import "bootstrap"
 
 import '@/assets/css/estilos-generales.css'
 import globalHelpers from "@/helpers/globalHelpers.vue";
-import GlobalHelpers from "@/helpers/globalHelpers.vue";
 //TODO: Ver como minificar todo los recursos
 
 const app = createApp(App).use(store).use(router);
@@ -84,14 +83,17 @@ axios.interceptors.response.use(response => {
 
         router.push({name:"VerificarCuenta"});
     }
+    else if(error.response.status === 404){
+        console.log("main.js: Response error captured: 404. Recurso no encontrado. Muestro la vista 404");
+
+        router.push({name:"NotFoundResource"});
+    }
     else {
         //Si no conozco el status del error que se devuelve, lo logueo en servidor y muestro un toast
-        GlobalHelpers.logError("Error con status desconocido", error);
+        globalHelpers.logError("Error con status desconocido", error);
 
-        GlobalHelpers.mostrarToast("Ha ocurrido un error inesperado. Por favor, intentalo de nuevo más tarde");
+        globalHelpers.mostrarToast("Ha ocurrido un error inesperado. Por favor, intentalo de nuevo más tarde");
     }
-
-    //TODO: Manejar también los 404
 
     store.dispatch("procesandoAction", false);
 
@@ -102,7 +104,7 @@ axios.interceptors.response.use(response => {
 app.config.errorHandler = (err, instance, info) => {
     console.log("Manejando error general: " + err + toString(instance) + toString(info))
 
-    GlobalHelpers.logError("Se ha producido un error general",
+    globalHelpers.logError("Se ha producido un error general",
         {
             userToken: store.state.tokenAuth,
             error: err,

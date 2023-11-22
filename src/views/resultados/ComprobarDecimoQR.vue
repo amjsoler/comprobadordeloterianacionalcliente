@@ -1,15 +1,14 @@
 <template>
-  <div>
+  <contenedor-centrado>
     <qrcode-stream class="" @detect="onDectect"></qrcode-stream>
 
-    <div class="fixed-bottom mb-75 d-flex justify-content-center">
+    <div class="fixed-bottom mb-75 ">
       <router-link :to="{name:'ComprobarDecimo'}"
-                   class="btn btn-lg btn-primary">
-        Introducir datos
-        <span class="material-symbols-outlined align-bottom">pin</span>
+                   class="d-inline-flex btn btn-lg btn-primary">
+        <span class="material-symbols-outlined fs-1">pin</span>
       </router-link>
     </div>
-  </div>
+  </contenedor-centrado>
 </template>
 
 <script>
@@ -17,21 +16,23 @@
 import { QrcodeStream } from 'vue-qrcode-reader'
 import axios from "axios";
 import router from "@/router";
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
 import dayjs from "dayjs";
+import ContenedorCentrado from "@/components/generales/layout/ContenedorCentrado.vue";
+import globalHelpers from "@/helpers/globalHelpers.vue";
 
 
 export default {
   name: "ComprobarDecimoQR",
   components: {
+    ContenedorCentrado,
     QrcodeStream
   },
 
-  data() {
-    return {
-      ultimosResultados: []
-    }
+  computed: {
+    ...mapState(["errors", "message"])
   },
+
   methods: {
     ...mapActions({
       almacenarDecimoAComprobarAction: "resultados/almacenarDecimoAComprobarAction",
@@ -46,19 +47,32 @@ export default {
       if (detectedCodes && detectedCodes[0] && detectedCodes[0].format == "qr_code") {
         const cadenaLeida = detectedCodes[0].rawValue.split(";");
 
+        var cadenaFecha = cadenaLeida[2].split("=")[1];
+        cadenaFecha = cadenaFecha.substring(3);
+        cadenaFecha = cadenaFecha.split(":")[0];
+
         //guardo los datos detectados del décimo
         datosDecimo.numero = cadenaLeida[4].split("=")[1];
-        datosDecimo.fechaSorteo = cadenaLeida[2].split("=")[1].substring(4);
+        datosDecimo.fechaSorteo = cadenaFecha;
+        datosDecimo.numeroSorteo = cadenaLeida[2].split("=")[0].substring(0,2)
         datosDecimo.serie = cadenaLeida[6].split("=")[1];
         datosDecimo.fraccion = cadenaLeida[5].split("=")[1];
+
+        console.log(datosDecimo);
+
+        console.log("Mando petición para consultar el id de sorteo dada la fecha");
 
         axios.post(process.env.VUE_APP_API_BASE_URL + "id-sorteo-dada-fecha",
             {
               fechaSorteo: dayjs(datosDecimo.fechaSorteo).format('YYYY-MM-DD')
             })
             .then(response => {
+              console.log("Response OK: ");
+              console.log(response);
+
               datosDecimo.sorteo = response.data.id;
 
+              console.log("Ahora compruebo resultados...");
               //Hago consulta al comprobar resultados
               axios.post(process.env.VUE_APP_API_BASE_URL + "comprobar-decimo",
                   {
@@ -69,6 +83,7 @@ export default {
                     sorteo: datosDecimo.sorteo
                   })
                   .then(response => {
+                    console.log("Response OK. Resultados: ");
                     console.log(response);
 
                     //Guardo el premio y el número en el state
@@ -86,6 +101,9 @@ export default {
                       premioTotal: response.data.premioTotal,
                       premiosObtenidos: response.data.premiosObtenidos
                     }
+
+                    console.log("Premio obtendio: ");
+                    console.log(premioObtenido);
 
                     this.almacenarPremioObtenido(premioObtenido);
 

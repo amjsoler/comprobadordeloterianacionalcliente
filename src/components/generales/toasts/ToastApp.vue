@@ -1,7 +1,7 @@
 <template>
   <div class="toast-container position-fixed w-100">
-    <div id="toastApp" class="toast align-items-center"
-         :class="dameTipoToast"
+    <div id="toastApp"
+         class="toast align-items-center fade hide"
          role="alert" aria-live="assertive" aria-atomic="true">
       <div class="d-flex">
         <div class="toast-body">
@@ -11,7 +11,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -22,20 +21,7 @@ export default {
   name: "ToastApp",
   computed: {
      ...mapState(["toastApp"]),
-    dameTipoToast() {
-       switch(this.toastApp.tipo){
-         case "default":
-           return "text-bg-primary";
-         case "success":
-           return "text-bg-success";
-         case "danger":
-           return "text-bg-danger";
-
-         default:
-           return "text-bg-primary";
-       }
-    }
-  }
+  },
 }
 </script>
 
