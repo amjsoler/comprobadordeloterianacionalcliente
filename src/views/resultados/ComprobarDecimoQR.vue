@@ -1,7 +1,6 @@
 <template>
-  <contenedor-centrado>
-    <qrcode-stream class="" @detect="onDectect"></qrcode-stream>
-
+  <contenedor-centrado class="justify-content-center">
+    <qrcode-stream  id="contenedor-lector" class="w-75" @detect="onDectect"></qrcode-stream>
     <div class="fixed-bottom mb-75 ">
       <router-link :to="{name:'ComprobarDecimo'}"
                    class="d-inline-flex btn btn-lg btn-primary">
@@ -11,16 +10,19 @@
   </contenedor-centrado>
 </template>
 
+<style scoped>
+#contenedor-lector {
+  height: calc(100%/2) !important;
+}
+</style>
 <script>
 
-import { QrcodeStream } from 'vue-qrcode-reader'
+import {QrcodeStream} from 'vue-qrcode-reader'
 import axios from "axios";
 import router from "@/router";
 import {mapActions, mapState} from "vuex";
 import dayjs from "dayjs";
 import ContenedorCentrado from "@/components/generales/layout/ContenedorCentrado.vue";
-import globalHelpers from "@/helpers/globalHelpers.vue";
-
 
 export default {
   name: "ComprobarDecimoQR",
@@ -44,7 +46,7 @@ export default {
 
       var datosDecimo = {};
 
-      if (detectedCodes && detectedCodes[0] && detectedCodes[0].format == "qr_code") {
+      if (detectedCodes && detectedCodes[0]) {
         const cadenaLeida = detectedCodes[0].rawValue.split(";");
 
         var cadenaFecha = cadenaLeida[2].split("=")[1];

@@ -56,8 +56,8 @@
               </div>
             </div>
             <div class="text-center">
-              <p v-if="decimo.premio === 0" class="small text-danger mt-3">Este décimo no está premiado</p>
-              <p v-else-if="decimo.premio > 0" class="small text-success mt-3">Este décimo tiene un premio de {{decimo.premio}}€ ¡Enhorabuena!</p>
+              <p v-if="decimo.premio == 0" class="small text-danger mt-3">Este décimo no está premiado</p>
+              <p v-else-if="decimo.premio > 0" class="small text-success mt-3">Este décimo tiene un premio de <span class="fw-bold">{{Math.trunc(decimo.premio)}}€</span> ¡Enhorabuena!</p>
             </div>
           </div>
         </div>
