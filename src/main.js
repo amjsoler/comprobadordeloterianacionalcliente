@@ -19,6 +19,10 @@ axios.interceptors.request.use(function(config){
         config.headers.Authorization = "Bearer " + store.state.tokenAuth;
     }
 
+    if(store.state.firebaseToken){
+        config.headers.firebasetoken = store.state.firebaseToken
+    }
+
     return config;
 }, function(error){
     return Promise.reject(error)

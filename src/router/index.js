@@ -140,6 +140,11 @@ router.beforeEach((to, from, next) => {
   //Cierro modales que puedan quedar abiertos
   globalHelpers.cerrarTodosLosModalesAbiertos();
 
+  //Veo si recibo el firebasetoken y lo almaceno
+  if(to.query.firebasetoken && (!store.state.firebasetoken || store.state.firebasetoken != to.query.firebasetoken)){
+    store.dispatch("almacenarFirebaseTokenAction", to.query.firebasetoken);
+  }
+
   //Comprobamos si la ruta de destino precisa autenticación
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     console.log("router/index.js: Redirect con requiresAuth...");

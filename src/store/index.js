@@ -13,9 +13,18 @@ export default createStore({
     errors: [],
     message: "",
     toastApp: {},
-    procesando: false
+    procesando: false,
+    firebaseToken: "",
   },
   mutations: {
+    almacenarFirebaseTokenMutation(state, token){
+      console.log("index.js - Entrando almacenarFirebaseTokenMutation");
+
+      state.firebaseToken = token;
+
+      console.log("index.js - Saliendo almacenarFirebaseTokenMutation");
+    },
+
     procesandoMutation(state, estado){
         state.procesando = estado;
     },
@@ -45,6 +54,15 @@ export default createStore({
     },
   },
   actions: {
+    almacenarFirebaseTokenAction({commit}, token){
+      console.log("index.js - Entrando a almacenarFirebaseTokenAction");
+
+      commit("almacenarFirebaseTokenMutation", token);
+      window.localStorage.setItem("firebasetoken", token);
+
+      console.log("index.js - Saliendo de almacenarFirebaseTokenAction");
+    },
+
     procesandoAction({commit}, estado){
         commit("procesandoMutation", estado);
     },
