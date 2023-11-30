@@ -3,6 +3,7 @@ import router from "@/router";
 import decimos from "@/store/decimos";
 import resultados from "@/store/resultados";
 import GlobalHelpers from "@/helpers/globalHelpers.vue";
+import usuario from "@/store/usuario";
 
 export default createStore({
   strict: true,
@@ -93,6 +94,7 @@ export default createStore({
   },
   modules: {
     decimos,
-    resultados
+    resultados,
+    usuario
   }
 })
