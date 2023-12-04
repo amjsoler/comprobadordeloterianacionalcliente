@@ -10,14 +10,14 @@
       ¡VAYA! Parece que el décimo <span class="fw-bold">{{ decimoAComprobar.numero }}</span> no ha obtenido ningún premio en este sorteo
     </div>
 
-    <div>
+    <!--<div>
       <div class="fixed-bottom mb-75 text-center">
         <router-link :to="{name: 'ComprobarDecimoQR'}"
                      class="btn btn-primary">
           Comprobar otro décimo
         </router-link>
       </div>
-    </div>
+    </div>-->
   </contenedor-centrado>
 </template>
 <script>
