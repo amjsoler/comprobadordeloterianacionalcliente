@@ -96,7 +96,7 @@ axios.interceptors.response.use(response => {
         //Si no conozco el status del error que se devuelve, lo logueo en servidor y muestro un toast
         globalHelpers.logError("Error con status desconocido", error);
 
-        globalHelpers.mostrarToast("Ha ocurrido un error inesperado. Por favor, intentalo de nuevo más tarde");
+        globalHelpers.mostrarToast("Ha ocurrido un error inesperado. Por favor, intentalo de nuevo más tarde y si el problema persiste, ponte en contacto con nosotros");
     }
 
     store.dispatch("procesandoAction", false);
