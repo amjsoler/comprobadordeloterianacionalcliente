@@ -15,12 +15,12 @@
       </form-group>
     </form>
 
-    <div class="fixed-bottom mb-75 ">
+    <!--<div class="fixed-bottom mb-75 ">
       <router-link :to="{name:'ComprobarDecimoQR'}"
                    class="d-inline-flex btn btn-lg btn-primary">
         <span class="material-symbols-outlined fs-1">qr_code_scanner</span>
       </router-link>
-    </div>
+    </div>-->
   </contenedor-centrado>
 </template>
 

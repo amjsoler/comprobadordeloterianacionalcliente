@@ -7,7 +7,6 @@ import IniciarSesion from "@/views/usuario/IniciarSesion.vue";
 import RegistroUsuario from "@/views/usuario/RegistroUsuario.vue";
 import MisDecimos from "@/views/decimos/MisDecimos.vue";
 import ComprobarDecimo from "@/views/resultados/ComprobarDecimo.vue";
-import ComprobarDecimoQR from "@/views/resultados/ComprobarDecimoQR.vue";
 import UltimosResultados from "@/views/resultados/UltimosResultados.vue";
 import CuentaUsuario from "@/views/usuario/CuentaUsuario.vue";
 import CrearDecimo from "@/views/decimos/CrearDecimo.vue";
@@ -92,11 +91,11 @@ const routes = [
     name: 'ComprobarDecimo',
     component: ComprobarDecimo,
   },
-  {
+  /*{
     path: '/decimos/comprobar-qr',
     name: 'ComprobarDecimoQR',
     component: ComprobarDecimoQR,
-  },
+  },*/
 
     //RUTAS DE RESULTADOS
   {
