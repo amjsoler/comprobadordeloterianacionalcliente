@@ -51,7 +51,22 @@ export default {
     },
 
     modificarAlertasPorNotificacion(e) {
-      this.almacenarAlertasPorNotificacionAction(e.target.checked)
+      console.log("Entrando al modificarAlertasPorNotificacion" + e.target.checked);
+        if(e.target.checked) {
+          console.log("Etrando al if true");
+          //Mandar aquí el evento a Android nativo y ver qué contesta antes de cambiar nada
+          const result = window.Android.solicitarPermisoNotificaciones();
+console.log("Respuesta del interfaz: " + result);
+          if(result){
+            e.target.checked = true;
+            this.almacenarAlertasPorNotificacionAction(e.target.checked);
+          }else{
+            e.target.checked = false;
+            GlobalHelpers.mostrarToast("Si quieres que te avisemos con tus premios, necesitamos permiso para enviarte notificaciones");
+          }
+        }else{
+          this.almacenarAlertasPorNotificacionAction(e.target.checked)
+        }
     },
 
     guardarAjustesCuentaUsuario(){
