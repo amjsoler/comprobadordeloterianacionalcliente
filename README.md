@@ -1,24 +1,8 @@
-# comprobadordeloterianacionalcliente
+# ComprobadorDeLoteriaNacional
 
-## Project setup
-```
-npm install
-```
+### Es un proyecto que se basa en la idea de una wallet digital, en este caso, de décimos de lotería. 
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Con esta app, puedes digitalizar tus décimos de lotería y una vez se haya celebrado el sorteo, la propia app te avisa de si tienes premio o no. Además, tienes un comprobador de boletos integrado mediante el cual, puedes saber si tus décimos están premiados o no.
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Tecnologías
+Esta app se ha desarrollado en Vue.js y se nutre de un API REST desarrollado en Laravel. Éste último proyecto se puede ver en: [https://github.com/amjsoler/comprobadordeloterianacional](https://github.com/amjsoler/comprobadordeloterianacional)
